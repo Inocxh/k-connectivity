@@ -5,7 +5,7 @@ import java.util.*;
 public class DFSTree {
     private int[] ordering2vertex;
     private int[] vertex2ordering;
-    private ArrayList<Integer>[] children;
+    private ArrayList<ArrayList<Integer>> children;
     private int[] parents;
     private int size;
 
@@ -15,7 +15,7 @@ public class DFSTree {
         //Initialize maps
         ordering2vertex = new int[n];
         vertex2ordering = new int[n];
-        children = new ArrayList[n];
+        children = ArrayList<ArrayList<>>(n); //Too cumbersome to mix array and ArrayList
         parents = new int[n];
 
 
