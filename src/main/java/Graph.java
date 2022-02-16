@@ -6,4 +6,6 @@ public interface Graph {
     int getM();
     /// Returns the list of vertices neighbouring v
     int[] getNeighbours(int v);
+    // Add an edge
+    void addEdge(int v, int w);
 }
