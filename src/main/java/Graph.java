@@ -1,5 +1,4 @@
 public interface Graph {
-
     /// Returns the number of vertices in the graph
     int getN();
     /// Returns the number of edges in the graph
