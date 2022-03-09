@@ -8,7 +8,7 @@ import java.util.List;
 public class DFSTree {
     private final int[] ordering2vertex;
     private final int[] vertex2ordering;
-    private Vertex[] vertices;
+    private final Vertex[] vertices;
     private final int size;
 
     public DFSTree(Graph G, int root) {
@@ -36,13 +36,14 @@ public class DFSTree {
            List<Integer> neighbours = G.getNeighbours(currentNode.vertex);
 
            //Check neighbours that have not been inspected yet.
-
+           boolean repushed = false;
            for(int j = (currentNode.lastInspected); j < neighbours.size(); j++) {
                int neighbour = neighbours.get(j);
                currentNode.lastInspected = j+1;
                if (!visited.contains(neighbour)) {
                    stack.push(currentNode);
                    stack.push(new StackElement(neighbour));
+                   repushed = true;
 
                    vertices[currentNode.vertex].children.add(neighbour);
                    vertices[neighbour].parent = currentNode.vertex;
@@ -51,7 +52,7 @@ public class DFSTree {
                }
            }
            //Assign ordering to currentNode TODO: MAKE BETTER
-           if(currentNode.lastInspected >= neighbours.size()-1) {
+           if(!repushed) {
                ordering2vertex[i] = currentNode.vertex;
                vertex2ordering[currentNode.vertex] = i;
                i++;
