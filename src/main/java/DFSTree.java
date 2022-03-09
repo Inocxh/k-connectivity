@@ -1,29 +1,26 @@
 import util.Stack;
+
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.ArrayList;
 
 public class DFSTree {
     private final int[] ordering2vertex;
     private final int[] vertex2ordering;
-    private final ArrayList<ArrayList<Integer>> children;
-    private final int[] parents;
+    private Vertex[] vertices;
     private final int size;
 
     public DFSTree(Graph G, int root) {
-        int n = G.getN();
+       int n = G.getN();
 
-        //Initialize maps
-        ordering2vertex = new int[n];
-        vertex2ordering = new int[n];
-        children = new ArrayList<>(n); //Too cumbersome to mix array and ArrayList
-        //Init n new arraylists
-        for (int i = 0; i < n; i++) {
-            children.add(new ArrayList<>());
-        }
-        parents = new int[n];
+       //Initialize maps
+       ordering2vertex = new int[n];
+       vertex2ordering = new int[n];
 
+       vertices = new Vertex[n];
+       Arrays.fill(vertices, new Vertex());
 
-       int i = 0 ;
+       int i = 0;
        HashSet<Integer> visited = new HashSet<>();
        util.Stack<Integer> stack = new Stack<>();
 
@@ -41,15 +38,13 @@ public class DFSTree {
            for(int neighbour: G.getNeighbours(currentNode)) {
                if (!visited.contains(neighbour)) {
                    stack.push(neighbour);
-                   children.get(currentNode).add(neighbour);
-                   parents[neighbour] = currentNode;
+                   vertices[currentNode].children.add(neighbour);
+                   vertices[neighbour].parent = currentNode;
                }
            }
        }
        //If size != n then the graph is not connected.
        size = visited.size();
-
-
     }
 
     /// Returns the children in the DFS tree of vertex v
@@ -70,6 +65,16 @@ public class DFSTree {
     }
     public int size() {
         return size;
+    }
+
+}
+
+class Vertex{
+    public ArrayList<Integer> children;
+    public int parent;
+    public Vertex() {
+        children = null;
+        parent = -1;
     }
 
 }
