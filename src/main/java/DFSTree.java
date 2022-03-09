@@ -3,6 +3,7 @@ import util.Stack;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.ArrayList;
+import java.util.List;
 
 public class DFSTree {
     private final int[] ordering2vertex;
@@ -18,29 +19,42 @@ public class DFSTree {
        vertex2ordering = new int[n];
 
        vertices = new Vertex[n];
-       Arrays.fill(vertices, new Vertex());
+       for (int i = 0; i < n; i++) {
+           vertices[i] = new Vertex();
+       }
 
        int i = 0;
        HashSet<Integer> visited = new HashSet<>();
-       util.Stack<Integer> stack = new Stack<>();
+       util.Stack<StackElement> stack = new Stack<>();
 
-       stack.push(root);
+       stack.push(new StackElement(root));
+       visited.add(root);
+
        while (!stack.isEmpty()) {
-           int currentNode = stack.pop();
+           StackElement currentNode = stack.pop();
 
-           //Assign ordering to currentNode
-           int v_number = n-i-1;
-           ordering2vertex[v_number] = currentNode;
-           vertex2ordering[currentNode] = v_number;
+           List<Integer> neighbours = G.getNeighbours(currentNode.vertex);
 
-           visited.add(currentNode);
+           //Check neighbours that have not been inspected yet.
 
-           for(int neighbour: G.getNeighbours(currentNode)) {
+           for(int j = (currentNode.lastInspected); j < neighbours.size(); j++) {
+               int neighbour = neighbours.get(j);
+               currentNode.lastInspected = j+1;
                if (!visited.contains(neighbour)) {
-                   stack.push(neighbour);
-                   vertices[currentNode].children.add(neighbour);
-                   vertices[neighbour].parent = currentNode;
+                   stack.push(currentNode);
+                   stack.push(new StackElement(neighbour));
+
+                   vertices[currentNode.vertex].children.add(neighbour);
+                   vertices[neighbour].parent = currentNode.vertex;
+                   visited.add(neighbour);
+                   break;
                }
+           }
+           //Assign ordering to currentNode TODO: MAKE BETTER
+           if(currentNode.lastInspected >= neighbours.size()-1) {
+               ordering2vertex[i] = currentNode.vertex;
+               vertex2ordering[currentNode.vertex] = i;
+               i++;
            }
        }
        //If size != n then the graph is not connected.
@@ -49,10 +63,10 @@ public class DFSTree {
 
     /// Returns the children in the DFS tree of vertex v
     public ArrayList<Integer> getChildren(int v) {
-        return children.get(v);
+        return vertices[v].children;
     }
     public int getParent(int v) {
-        return parents[v];
+        return vertices[v].parent;
     }
 
     /// Returns a list of all vertices in their DFS order
@@ -68,13 +82,24 @@ public class DFSTree {
     }
 
 }
-
+//Holds a tree-vertex
 class Vertex{
     public ArrayList<Integer> children;
     public int parent;
+    /// Initialize all children and parents to illegal values
+    /// At the end of new DFSTree, all values are legal.
     public Vertex() {
-        children = null;
+        children = new ArrayList<>();
         parent = -1;
     }
 
+}
+
+class StackElement {
+    public int vertex;
+    public int lastInspected = 0;
+
+    public StackElement(int v) {
+        vertex = v;
+    }
 }
