@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="TestTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-03-09T14:13:37" hostname="nc-thinkpad" time="0.053">
+<testsuite name="TestTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-03-12T10:18:09" hostname="nc-thinkpad" time="0.043">
   <properties/>
-  <testcase name="graphTest3()" classname="TestTest" time="0.053"/>
+  <testcase name="graphTest3()" classname="TestTest" time="0.043"/>
   <system-out><![CDATA[Didn't find bridge at 1
 Didn't find bridge at 2
 Didn't find bridge at 3
