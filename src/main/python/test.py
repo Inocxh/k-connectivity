@@ -1,5 +1,5 @@
-print("hello world!")
-import os.path
-path = "../../../test/graphs/generated/gen1.gr"
-file = open(path,"w")
-file.write("Hello world!")
+from os import pardir
+import os.path as path
+p = path.abspath(path.join(__file__,"../../../test/graphs/generated/gen1.gr"))
+file = open(p, "w")
+file.write("hello world!")
