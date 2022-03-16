@@ -11,12 +11,12 @@ public class DFSTree {
     private final Vertex[] vertices;
     private final int size;
 
-    public DFSTree(Graph G, int root) {
+    public DFSTree(Graph G, int root, boolean postOrder) {
        int n = G.getN();
 
        //Initialize maps
        ordering2vertex = new int[n];
-       vertex2ordering = new int[n];
+       vertex2ordering = new int[n]; // TODO: init til 1
 
        vertices = new Vertex[n];
        for (int i = 0; i < n; i++) {
@@ -44,7 +44,8 @@ public class DFSTree {
                    stack.push(currentNode);
                    stack.push(new StackElement(neighbour));
                    repushed = true;
-
+                    // TODO: her tilføjes børn, op, ned se beskrivelse under Vertex klasse.
+                   // Op og ned er et if/else statement, hvor man tilhører en af grupperne. Dette er afhængeligt af ordering
                    vertices[currentNode.vertex].children.add(neighbour);
                    vertices[neighbour].parent = currentNode.vertex;
                    visited.add(neighbour);
@@ -53,8 +54,13 @@ public class DFSTree {
            }
            //Assign ordering to currentNode TODO: MAKE BETTER
            if(!repushed) {
-               ordering2vertex[i] = currentNode.vertex;
-               vertex2ordering[currentNode.vertex] = i;
+               if (postOrder) {
+                   ordering2vertex[i] = currentNode.vertex;
+                   vertex2ordering[currentNode.vertex] = i;
+               } else { // Preorder
+                   ordering2vertex[n - i - 1] = currentNode.vertex;
+                   vertex2ordering[currentNode.vertex] = n - i - 1;
+               }
                i++;
            }
        }
@@ -85,13 +91,17 @@ public class DFSTree {
 }
 //Holds a tree-vertex
 class Vertex{
-    public ArrayList<Integer> children;
+    public ArrayList<Integer> children; // TODO: remove
     public int parent;
     /// Initialize all children and parents to illegal values
     /// At the end of new DFSTree, all values are legal.
     public Vertex() {
-        children = new ArrayList<>();
+        children = new ArrayList<>(); // TODO: remove
         parent = -1;
+        // TODO: lav 3 lister med børn, op, ned.
+        // Disse skal indholde Børn= Børn i dfs-træet for hver vertex
+        // Op = ikke træ edges, som peger mod roden
+        // Ned = ikke træ edges, der peger væk fra roden.
     }
 
 }

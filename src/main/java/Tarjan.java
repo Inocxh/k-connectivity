@@ -3,7 +3,9 @@ import java.util.Arrays;
 public class Tarjan {
 
     public static ConnectedResult is1EdgeConnected(Graph G) {
-        DFSTree T = new DFSTree(G, 0);
+        boolean postOrder = true;
+        DFSTree T = new DFSTree(G, 0, postOrder);
+
         int[] H = new int[G.getN()];
         /// Compute H(v)
         for (int vertex : T.dfsOrder()) {
@@ -11,10 +13,10 @@ public class Tarjan {
             for (int neighbour : G.getNeighbours(vertex)/* Alle tree edges*/) {
                 //Is child in tree (Tarjan lemma 2)
                 if (T.orderOf(neighbour) < T.orderOf(vertex)) {
-                    max = max < H[neighbour] ? H[neighbour] : max;
+                    max = Math.max(max, H[neighbour]);
                 //Isn't child
                 } else if (T.getParent(vertex) != neighbour){
-                    max = max < T.orderOf(neighbour) ? T.orderOf(neighbour) : max;
+                    max = Math.max(max, T.orderOf(neighbour));
                 }
             }
             H[vertex] = max;
