@@ -43,7 +43,18 @@ public class TestTest {
         //Create the graph and print it:
         ArrayGraph G = ArrayGraph.fromString(new Scanner(f));
         //Create a DFS tree rooted at 0
-        DFSTree T = new DFSTree(G,0, true);
+        //DFSTree T = new DFSTree(G,0, true);
+
+        Tarjan.is1EdgeConnected(G);
+    }
+
+    @Test
+    public void graphTest5() throws Exception {
+        File f = new File("src/test/graphs/doubleEdge.gr");
+        //Create the graph and print it:
+        ArrayGraph G = ArrayGraph.fromString(new Scanner(f));
+        //Create a DFS tree rooted at 0
+        //DFSTree T = new DFSTree(G,0, true);
 
         Tarjan.is1EdgeConnected(G);
     }

@@ -25,6 +25,7 @@ public class DFSTree {
 
        int i = 0;
        HashSet<Integer> visited = new HashSet<>();
+
        util.Stack<StackElement> stack = new Stack<>();
 
        stack.push(new StackElement(root));
@@ -32,6 +33,7 @@ public class DFSTree {
 
        while (!stack.isEmpty()) {
            StackElement currentNode = stack.pop();
+           System.out.println("Popped " + currentNode.vertex);
 
            List<Integer> neighbours = G.getNeighbours(currentNode.vertex);
 
@@ -39,17 +41,29 @@ public class DFSTree {
            boolean repushed = false;
            for(int j = (currentNode.lastInspected); j < neighbours.size(); j++) {
                int neighbour = neighbours.get(j);
-               currentNode.lastInspected = j+1;
+               currentNode.lastInspected = j + 1;
+               System.out.println("Looking at " + neighbour);
                if (!visited.contains(neighbour)) {
+                   System.out.println("Pushed " + neighbour);
                    stack.push(currentNode);
                    stack.push(new StackElement(neighbour));
                    repushed = true;
-                    // TODO: her tilføjes børn, op, ned se beskrivelse under Vertex klasse.
-                   // Op og ned er et if/else statement, hvor man tilhører en af grupperne. Dette er afhængeligt af ordering
+
+
+                   System.out.println("Added " + neighbour + " as child of " + currentNode.vertex);
                    vertices[currentNode.vertex].children.add(neighbour);
                    vertices[neighbour].parent = currentNode.vertex;
+
                    visited.add(neighbour);
                    break;
+               } else { // Contains neighbour. Create backedge.
+
+                   if (vertices[currentNode.vertex].parent != neighbour || vertices[currentNode.vertex].marked.contains(neighbour) ){
+                       vertices[currentNode.vertex].eEdges.add(neighbour);
+                       System.out.println("(" + currentNode.vertex + "," + neighbour + ") eEdge" );
+                   } else if (vertices[currentNode.vertex].parent == neighbour){
+                       vertices[currentNode.vertex].marked.add(neighbour);
+                   }
                }
            }
            //Assign ordering to currentNode TODO: MAKE BETTER
@@ -72,6 +86,9 @@ public class DFSTree {
     public ArrayList<Integer> getChildren(int v) {
         return vertices[v].children;
     }
+    public ArrayList<Integer> getEEdges(int v) {
+        return vertices[v].eEdges;
+    }
     public int getParent(int v) {
         return vertices[v].parent;
     }
@@ -91,17 +108,20 @@ public class DFSTree {
 }
 //Holds a tree-vertex
 class Vertex{
-    public ArrayList<Integer> children; // TODO: remove
+    public ArrayList<Integer> children;
+    public ArrayList<Integer> eEdges;
+    public HashSet<Integer> marked;
     public int parent;
+
+
     /// Initialize all children and parents to illegal values
     /// At the end of new DFSTree, all values are legal.
     public Vertex() {
-        children = new ArrayList<>(); // TODO: remove
+        children = new ArrayList<>();
+        eEdges = new ArrayList<>();
+        marked = new HashSet<>();
         parent = -1;
-        // TODO: lav 3 lister med børn, op, ned.
-        // Disse skal indholde Børn= Børn i dfs-træet for hver vertex
-        // Op = ikke træ edges, som peger mod roden
-        // Ned = ikke træ edges, der peger væk fra roden.
+
     }
 
 }
@@ -113,4 +133,5 @@ class StackElement {
     public StackElement(int v) {
         vertex = v;
     }
+
 }
