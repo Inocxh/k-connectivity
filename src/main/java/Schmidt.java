@@ -1,12 +1,12 @@
 public class Schmidt {
 
     public static ConnectedResult is2Connected(Graph G) {
-        boolean postOrder = false;
-        DFSTree T = new DFSTree(G, 0, postOrder;
+        /*boolean postOrder = false;
+        DFSTree T = new DFSTree(G, 0, postOrder);
         //make chain decomposition
         for (int vertex : T.dfsOrder()) {
             int max = T.orderOf(vertex);
-            for (int neighbour : G.getNeighbours(vertex)/* Alle tree edges*/) {
+            for (int neighbour : G.getNeighbours(vertex) Alle tree edges) {
                 //Is child in tree (Tarjan lemma 2)
                 if (T.orderOf(neighbour) > T.orderOf(vertex)) {
                     max = Math.max(max, H[neighbour]);
@@ -21,8 +21,8 @@ public class Schmidt {
             } else {
                 System.out.println("Didn't find bridge at " + vertex);
             }
-        }
-   return ConnectedResult.None;
+        }*/
+        return ConnectedResult.None;
     }
 }
 
