@@ -1,7 +1,7 @@
 public enum ConnectedResult {
     None,
     NotConnected,
-    HasBrigde,
+    HasBridge,
     TwoEdgeConnected,
     TwoConnected,
     ThreeEdgeConnected,
