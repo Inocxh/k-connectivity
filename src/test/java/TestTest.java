@@ -58,4 +58,28 @@ public class TestTest {
 
         Tarjan.is1EdgeConnected(G);
     }
+
+
+    // SCHMIDT TESTS BELOW
+    @Test
+    public void graphTest6() throws Exception {
+        // Expect nothing
+        File f = new File("src/test/graphs/blackboard/bridge2.gr");
+        ArrayGraph G = ArrayGraph.fromString(new Scanner(f));
+        Schmidt.is2Connected(G);
+    }
+    @Test
+    public void graphTest7() throws Exception {
+        // Expect 2-connected
+        File f = new File("src/test/graphs/2-connected.gr");
+        ArrayGraph G = ArrayGraph.fromString(new Scanner(f));
+        Schmidt.is2Connected(G);
+    }
+    @Test
+    public void graphTest8() throws Exception {
+        // Expect 2-edge-connected, not 2-connected
+        File f = new File("src/test/graphs/2edgeNot2v.gr");
+        ArrayGraph G = ArrayGraph.fromString(new Scanner(f));
+        Schmidt.is2Connected(G);
+    }
 }
