@@ -8,7 +8,6 @@ public class RadixSorterTest {
     @Test
     public void RadixTest1() {
         RadixSortable test = new NotInteger(0b11_10_01);
-        assert test.getMaxRadix() ==1;
         assert test.getRadix(26) == 1;
         assert test.getRadix(27) == 1;
         assert test.getRadix(28) == 1;
@@ -24,9 +23,8 @@ public class RadixSorterTest {
             collec[i] = new NotInteger(j);
             i++;
         }
-        RadixSorter<NotInteger> sorter = new RadixSorter<>(collec, 0,1,32);
-        sorter.sort(0, 0,10);
-        //System.out.println(Arrays.toString(collec));
+        RadixSorter<NotInteger> sorter = new RadixSorter<>(Arrays.asList(collec), NotInteger.getMinRadix(),NotInteger.getMaxRadix(),NotInteger.getRadixDepth());
+        sorter.sort();
         assert isSorted(collec);
     }
     @Test
@@ -38,7 +36,7 @@ public class RadixSorterTest {
             collec[i] = new NotInteger(j);
             i++;
         }
-        RadixSorter<NotInteger> sorter = new RadixSorter<>(collec, 0,1,32);
+        RadixSorter<NotInteger> sorter = new RadixSorter<>(Arrays.asList(collec), NotInteger.getMinRadix(),NotInteger.getMaxRadix(),NotInteger.getRadixDepth());
         sorter.sort(0, 0,10000);
         assert isSorted(collec);
     }
@@ -56,17 +54,18 @@ public class RadixSorterTest {
             list[i] = new NotInteger(generator.nextInt(0,10));
             list2[i] = gen2.nextInt(0,10);
         }
-        RadixSorter<NotInteger> s = new RadixSorter<>(list, 0, 1,32);
+        RadixSorter<NotInteger> s = new RadixSorter<>(Arrays.asList(list), NotInteger.getMinRadix(),NotInteger.getMaxRadix(),NotInteger.getRadixDepth());
         long start = System.nanoTime();
         Arrays.sort(list2);
         long end = System.nanoTime() - start;
         long start2 = System.nanoTime();
-        s.sort(28,0,list.length);
+        s.sortFrom(28);
         long end2 = System.nanoTime() - start2;
         System.out.println("Comparesort: " + end);
         System.out.println("Radix sort : " + end2);
         System.out.println("Difference : " + Math.abs(end-end2));
         assert  isSorted(list);
+        assert isSorted(list2);
     }
 
     static boolean isSorted(NotInteger[] list) {
@@ -85,7 +84,6 @@ class NotInteger implements RadixSortable {
         this.i = i;
     }
 
-    @Override
     public int getRadix(int d) {
         /// 123, d = 1
         ///  2 = 123/10*1 % 10
@@ -94,15 +92,15 @@ class NotInteger implements RadixSortable {
         return (i>>(31-d)) & 1;
     }
 
-    public int getMaxRadix() {
+    public static int getMaxRadix() {
         return 1;
     }
 
-    public int getMinRadix() {
+    public static int getMinRadix() {
         return 0;
     }
 
-    public int getRadixDepth() {
+    public static int getRadixDepth() {
         return 32;
     }
 
