@@ -65,7 +65,6 @@ public class RadixSorterTest {
         System.out.println("Radix sort : " + end2);
         System.out.println("Difference : " + Math.abs(end-end2));
         assert  isSorted(list);
-        assert isSorted(list2);
     }
 
     static boolean isSorted(NotInteger[] list) {
