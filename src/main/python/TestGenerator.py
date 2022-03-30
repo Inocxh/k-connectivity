@@ -21,7 +21,17 @@ class TestGenerator:
                 v = random.randint(0, i * kSize)
                 graph[i * kSize].append(v)   
         return graph
-    
+
+
+    def connectNext(self, next, size):
+        graph = [[] for _ in range(size)]
+
+        for i in range(size):
+            for j in range(next):
+                graph[i].append((i + j + 1) % size)
+
+        return graph
+
     # Gen vertices and connect to at least x other vertices
     def genRatio(self, vertices, connections):
         graph = [[] for _ in range(vertices)]
@@ -65,11 +75,5 @@ class TestGenerator:
 
 
 
-TG = TestGenerator()
 
-#TG.toGr(TG.kPath(100000, 5), "k5path.gr") # 100 path of k5's
-#TG.toGr(TG.kPath(2, 2000), "k2000bridge.gr") # 2 path of k100's
-#TG.toGr(TG.kTree(100000, 5), "k5tree.gr") # 100 node tree of k5's
-#TG.toGr(TG.kPath(1, 2000), "k2000.gr")
-TG.toGraphViz(TG.genRatio(10, 2), "output.txt")
-#TG.toGraphViz(graph) # 
+
