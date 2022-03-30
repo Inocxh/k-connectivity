@@ -15,7 +15,7 @@ public class Tarjan {
 
             int max = T.orderOf(vertex);
             // Check all non tree edges.
-            System.out.println("Neighbours for "  + vertex + " " +Arrays.toString(T.getUpEdges(vertex).toArray()));
+            System.out.println("Neighbours for "  + vertex + " " + Arrays.toString(T.getUpEdges(vertex).toArray()));
             for (int eN : T.getUpEdges(vertex)) {
                 max = Math.max(max, T.orderOf(eN));
             }
