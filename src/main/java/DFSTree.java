@@ -112,6 +112,7 @@ public class DFSTree {
 //Holds a tree-vertex
 class Vertex{
     public ArrayList<Integer> children;
+    public int sBelongs;
     //public ArrayList<Integer> eEdges;
     public ArrayList<Integer> upEdges;
     public ArrayList<Integer> downEdges;
