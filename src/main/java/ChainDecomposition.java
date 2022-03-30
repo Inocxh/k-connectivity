@@ -1,6 +1,7 @@
 import com.sun.net.httpserver.Filter;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class ChainDecomposition {
     public ArrayList<ArrayList<Integer>> chains = new ArrayList<>();;
@@ -11,6 +12,9 @@ public class ChainDecomposition {
         this(T, true);
     }
     public ChainDecomposition(DFSTree T, boolean store){
+
+        HashSet<Integer> visited = new HashSet<>();
+
         // For all vertices in increasing order
         for (int vertex : T.dfsOrder()) {
             // For all external edges
@@ -20,13 +24,13 @@ public class ChainDecomposition {
                 // Add start edge, mark visited and inc edge counter
                 chain.add(vertex);
                 chain.add(eN);
-                T.vertices[vertex].visited = true;
+                visited.add(vertex);
                 edgeCounter++;
 
                 // Traverse towards root. Add edges underway and mark visited
                 int currentVertex = eN;
-                while (!T.vertices[currentVertex].visited) {
-                    T.vertices[currentVertex].visited = true;
+                while (!visited.contains(currentVertex)) {
+                    visited.add(currentVertex);
                     currentVertex = T.vertices[currentVertex].parent;
                     chain.add(currentVertex);
                     edgeCounter++;
@@ -39,7 +43,6 @@ public class ChainDecomposition {
                 if (store) {
                     chains.add(chain);
                 }
-
             }
         }
     }
@@ -49,7 +52,5 @@ public class ChainDecomposition {
     public int getCCycles(){
         return cycleCounter;
     }
-
-
 
 }
