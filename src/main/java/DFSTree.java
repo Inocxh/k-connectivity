@@ -25,6 +25,7 @@ public class DFSTree {
         }
 
         int i = 0;
+        //TODO: Change to array
         HashSet<Integer> visited = new HashSet<>();
 
         util.Stack<StackElement> stack = new Stack<>();
@@ -111,13 +112,13 @@ public class DFSTree {
 }
 //Holds a tree-vertex
 class Vertex{
-    public ArrayList<Integer> children;
     public int sBelongs;
+    public ArrayList<Integer> children;
     public ArrayList<Integer> upEdges;
     public ArrayList<Integer> downEdges;
 
     public int parent;
-    public boolean visited;
+
 
 
     /// Initialize all children and parents to illegal values
@@ -127,7 +128,7 @@ class Vertex{
         upEdges = new ArrayList<>();
         downEdges = new ArrayList<>();
         parent = -1;
-        visited = false;
+
     }
 
 }
