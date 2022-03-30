@@ -8,7 +8,7 @@ import java.util.List;
 public class DFSTree {
     private final int[] ordering2vertex;
     private final int[] vertex2ordering;
-    public final Vertex[] vertices;
+    private final Vertex[] vertices;
     private final int size;
 
     public DFSTree(Graph G, int root, boolean postOrder) {
@@ -112,7 +112,6 @@ public class DFSTree {
 }
 //Holds a tree-vertex
 class Vertex{
-    public int sBelongs;
     public ArrayList<Integer> children;
     public ArrayList<Integer> upEdges;
     public ArrayList<Integer> downEdges;
