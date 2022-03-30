@@ -6,10 +6,10 @@ public class Schmidt {
         ChainDecomposition CD = new ChainDecomposition(T, false);
 
         if (CD.getCEdges() < G.getM()){
-            System.out.println("Not 2-edge-connected");
+            //System.out.println("Not 2-edge-connected");
             return ConnectedResult.HasBridge;
         } else if (CD.getCCycles() > 1){
-            System.out.println("2-edge-connected, not 2-connected");
+            //System.out.println("2-edge-connected, not 2-connected");
             return ConnectedResult.TwoEdgeConnected;
         } else if (CD.getCCycles() == 1){
             return ConnectedResult.TwoConnected;
