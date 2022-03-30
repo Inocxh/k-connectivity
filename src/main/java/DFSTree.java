@@ -1,6 +1,5 @@
 import util.Stack;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +27,8 @@ public class DFSTree {
         //TODO: Change to array
         HashSet<Integer> visited = new HashSet<>();
 
+        //This is our custom implementation of Stack.
+        //The java standard library's stack is thread-safe
         util.Stack<StackElement> stack = new Stack<>();
 
         stack.push(new StackElement(root));

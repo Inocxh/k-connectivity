@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 public class ChainDecomposition {
-    public ArrayList<ArrayList<Integer>> chains = new ArrayList<>();;
+    public ArrayList<ArrayList<Integer>> chains = new ArrayList<>();
     public int edgeCounter;
     public int cycleCounter;
 
