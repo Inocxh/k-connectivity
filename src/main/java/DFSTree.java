@@ -116,7 +116,7 @@ class Vertex{
     public ArrayList<Integer> downEdges;
 
     public int parent;
-    public boolean visited;
+
 
 
     /// Initialize all children and parents to illegal values
@@ -126,7 +126,6 @@ class Vertex{
         upEdges = new ArrayList<>();
         downEdges = new ArrayList<>();
         parent = -1;
-        visited = false;
 
     }
 
