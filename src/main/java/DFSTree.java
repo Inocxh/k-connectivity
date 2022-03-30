@@ -113,10 +113,9 @@ public class DFSTree {
 class Vertex{
     public ArrayList<Integer> children;
     public int sBelongs;
-    //public ArrayList<Integer> eEdges;
     public ArrayList<Integer> upEdges;
     public ArrayList<Integer> downEdges;
-    //public HashSet<Integer> marked;
+
     public int parent;
     public boolean visited;
 
@@ -129,7 +128,6 @@ class Vertex{
         downEdges = new ArrayList<>();
         parent = -1;
         visited = false;
-
     }
 
 }
