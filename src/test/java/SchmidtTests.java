@@ -32,30 +32,6 @@ public class SchmidtTests {
     public void doubleEdgeTest() throws Exception {
         File f = new File("src/test/graphs/schmidt-tests/doubleEdge.gr");
         ArrayGraph G = ArrayGraph.fromString(new Scanner(f));
-        assert(Schmidt.is2Connected(G) == ConnectedResult.TwoConnected);
-    }
-    @Test
-    public void k5path() throws Exception {
-        File f = new File("src/test/graphs/generated/k5path.gr");
-        ArrayGraph G = ArrayGraph.fromString(new Scanner(f));
-        assert(Schmidt.is2Connected(G) == ConnectedResult.HasBridge);
-    }
-    @Test
-    public void k5tree() throws Exception {
-        File f = new File("src/test/graphs/generated/k5tree.gr");
-        ArrayGraph G = ArrayGraph.fromString(new Scanner(f));
-        assert(Schmidt.is2Connected(G) == ConnectedResult.HasBridge);
-    }
-    @Test
-    public void k2000() throws Exception {
-        File f = new File("src/test/graphs/generated/k2000.gr");
-        ArrayGraph G = ArrayGraph.fromString(new Scanner(f));
-        assert(Schmidt.is2Connected(G) == ConnectedResult.TwoConnected);
-    }
-    @Test
-    public void k2000Bridge() throws Exception {
-        File f = new File("src/test/graphs/generated/k2000Bridge.gr");
-        ArrayGraph G = ArrayGraph.fromString(new Scanner(f));
-        assert(Schmidt.is2Connected(G) == ConnectedResult.HasBridge);
+        assert (Schmidt.is2Connected(G) == ConnectedResult.TwoConnected);
     }
 }
