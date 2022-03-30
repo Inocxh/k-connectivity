@@ -25,6 +25,7 @@ public class DFSTree {
         }
 
         int i = 0;
+        //TODO: Change to array
         HashSet<Integer> visited = new HashSet<>();
 
         util.Stack<StackElement> stack = new Stack<>();
