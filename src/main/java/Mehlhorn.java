@@ -1,7 +1,26 @@
+import java.sql.SQLOutput;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Mehlhorn {
     public static ConnectedResult is3EdgeConnected(Graph G) {
-        ChainDFSTree T = new ChainDFSTree(G, 0);
-        ChainTree chainTree = new ChainTree(T);
-        return null;
+        DFSTree T = new DFSTree(G, 0, false);
+        ChainDecomposition chainDecomposition = new ChainDecomposition(T, true);
+        chainDecomposition.computeParentChains();
+        ArrayList<Chain> currentGraph = new ArrayList<>(Arrays.asList(chainDecomposition.chains.get(0), chainDecomposition.chains.get(1)));
+        for(int i=0; i<chainDecomposition.getNumberOfChains(); i++) {
+            System.out.println("this is chain: " + i);
+            System.out.println(chainDecomposition.chains.get(i).vertices);
+            System.out.println("this is parent for chain: " + i);
+            System.out.println(chainDecomposition.chains.get(i).parent);
+        }
+        System.out.println("this is where the source of every chain is located: ");
+        for (int i=0; i<T.size(); i++) {
+            if(chainDecomposition.getVerticesToSC(i) != null) {
+                System.out.println(chainDecomposition.getVerticesToSC(i).toString());
+            }
+        }
+        return ConnectedResult.ThreeEdgeConnected;
     }
 }
