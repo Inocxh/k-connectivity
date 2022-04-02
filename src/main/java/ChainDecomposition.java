@@ -45,7 +45,7 @@ public class ChainDecomposition {
                 int currentVertex = eN;
                 while (!visited.contains(currentVertex)) {
                     if (mehlhorn) {
-                        verticesSBelong[currentVertex] = chains.size()-1;
+                        verticesSBelong[currentVertex] = chains.size();
                     }
 
                     visited.add(currentVertex);
