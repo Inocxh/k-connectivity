@@ -81,12 +81,12 @@ public class ChainDecomposition {
     public void computeParentChains() {
         for (int i=0; i< this.getNumberOfChains(); i++) {
             if(i==0) {
-                chains.get(i).parent = -1;
+                chains.get(i).parent = null;
             }
             else {
                 int terminal = chains.get(i).terminal;
                 int parent = verticesSBelong[terminal];
-                chains.get(i).parent = parent;
+                chains.get(i).parent = chains.get(parent);
             }
         }
     }
