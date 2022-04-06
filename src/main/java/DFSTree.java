@@ -7,7 +7,7 @@ import java.util.List;
 public class DFSTree {
     private final int[] ordering2vertex;
     private final int[] vertex2ordering;
-    public final Vertex[] vertices;
+    private final Vertex[] vertices;
     private final int size;
 
     public DFSTree(Graph G, int root, boolean postOrder) {
