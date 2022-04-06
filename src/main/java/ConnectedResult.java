@@ -5,7 +5,5 @@ public enum ConnectedResult {
     TwoEdgeConnected,
     TwoConnected,
     ThreeEdgeConnected,
-    ThreeConnected,
     FourEdgeConnected,
-    FourConnected
 }
