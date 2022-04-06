@@ -7,6 +7,7 @@ import org.openjdk.jmh.annotations.State;
 @State(Scope.Benchmark)
 public class ParamTest {
 
-    @Param({"1","10","100","1000","10000","100000"})
+    @Param({"1","10","100","1000"})
     public int lol;
+    public int k;
 }

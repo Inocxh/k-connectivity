@@ -1,4 +1,5 @@
-import javax.swing.text.Segment;
+package graphs;
+
 import java.util.ArrayList;
 
 public class CurrentGraph {

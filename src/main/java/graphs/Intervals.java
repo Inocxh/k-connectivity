@@ -1,5 +1,6 @@
+package graphs;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Intervals {
     int max;
