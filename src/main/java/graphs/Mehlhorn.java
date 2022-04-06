@@ -1,7 +1,6 @@
-import java.sql.SQLOutput;
-import java.util.ArrayList;
+package graphs;
+
 import java.util.Arrays;
-import java.util.List;
 
 public class Mehlhorn {
     public static ConnectedResult is3EdgeConnected(Graph G) {

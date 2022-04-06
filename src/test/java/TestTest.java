@@ -1,3 +1,7 @@
+import graphs.DFSTree;
+import graphs.Schmidt;
+import graphs.Tarjan;
+import graphs.ArrayGraph;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -43,7 +47,7 @@ public class TestTest {
         //Create the graph and print it:
         ArrayGraph G = ArrayGraph.fromString(new Scanner(f));
         //Create a DFS tree rooted at 0
-        //DFSTree T = new DFSTree(G,0, true);
+        //graphs.DFSTree T = new graphs.DFSTree(G,0, true);
 
         Tarjan.is1EdgeConnected(G);
     }
@@ -54,7 +58,7 @@ public class TestTest {
         //Create the graph and print it:
         ArrayGraph G = ArrayGraph.fromString(new Scanner(f));
         //Create a DFS tree rooted at 0
-        //DFSTree T = new DFSTree(G,0, true);
+        //graphs.DFSTree T = new graphs.DFSTree(G,0, true);
 
         Tarjan.is1EdgeConnected(G);
     }

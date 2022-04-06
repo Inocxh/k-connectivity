@@ -20,6 +20,5 @@ public class BenchmarkTest {
                 c+=i+j*2;
             }
         }
-        assert c != 0;
     }
 }

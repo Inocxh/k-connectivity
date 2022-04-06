@@ -1,3 +1,5 @@
+package graphs;
+
 import util.Stack;
 
 import java.util.HashSet;
@@ -122,7 +124,7 @@ class Vertex{
 
 
     /// Initialize all children and parents to illegal values
-    /// At the end of new DFSTree, all values are legal.
+    /// At the end of new graphs.DFSTree, all values are legal.
     public Vertex() {
         children = new ArrayList<>();
         upEdges = new ArrayList<>();
