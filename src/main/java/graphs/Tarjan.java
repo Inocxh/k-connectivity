@@ -17,11 +17,11 @@ public class Tarjan {
 
             int max = T.orderOf(vertex);
             // Check all non tree edges.
-            System.out.println("Neighbours for "  + vertex + " " + Arrays.toString(T.getUpEdges(vertex).toArray()));
+
             for (int eN : T.getUpEdges(vertex)) {
                 max = Math.max(max, T.orderOf(eN));
             }
-            //System.out.println("Children for "  + vertex + " " + Arrays.toString(T.getChildren(vertex).toArray()));
+
             // Check all tree edges, ex. parent
             for (int chN : T.getChildren(vertex)) {
                 max = Math.max(max, H[chN]);
@@ -34,9 +34,6 @@ public class Tarjan {
                 //System.out.println("Didn't find bridge at " + vertex);
             }
         }
-        //System.out.println();
-        //System.out.println(Arrays.toString(H));
-        //System.out.println(Arrays.toString(T.dfsOrder()));
         return ConnectedResult.None;
     }
 }
