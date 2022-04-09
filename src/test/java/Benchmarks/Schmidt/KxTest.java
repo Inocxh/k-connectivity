@@ -1,18 +1,16 @@
-package Benchmarks.Tarjan;
+package Benchmarks.Schmidt;
 
 import Benchmarks.BenchmarkRunner;
+import graphs.ArrayGraph;
 import graphs.Schmidt;
 import graphs.Tarjan;
 import org.openjdk.jmh.annotations.*;
-import graphs.ArrayGraph;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
-import org.openjdk.jmh.runner.options.OptionsBuilder;
 
 import java.io.File;
 import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
 
 @State(Scope.Benchmark)
 public class KxTest {
@@ -29,15 +27,15 @@ public class KxTest {
     }
 
     @Benchmark
-    public void tarjan() {
-        Tarjan.is1EdgeConnected(g);
+    public void schmidt() {
+        Schmidt.is2Connected(g);
     }
 
     public static void main(String[] args) throws RunnerException {
         Options o = BenchmarkRunner
                 .getOptions()
                 .include(PathTest.class.getSimpleName())
-                .result("./src/test/java/Benchmarks/Results/TarjanKx.csv")
+                .result("./src/test/java/Benchmarks/Results/SchmidtKx.csv")
                 .build();
         new Runner(o).run();
     }

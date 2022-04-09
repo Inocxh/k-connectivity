@@ -1,0 +1,13 @@
+"Benchmark","Mode","Threads","Samples","Score","Score Error (99.9%)","Unit","Param: x"
+"Benchmarks.Tarjan.PathTest.tarjan","avgt",1,20,0.000497,0.000011,"ms/op",1
+"Benchmarks.Tarjan.PathTest.tarjan","avgt",1,20,0.001031,0.000011,"ms/op",2
+"Benchmarks.Tarjan.PathTest.tarjan","avgt",1,20,0.002395,0.000024,"ms/op",4
+"Benchmarks.Tarjan.PathTest.tarjan","avgt",1,20,0.004975,0.000079,"ms/op",8
+"Benchmarks.Tarjan.PathTest.tarjan","avgt",1,20,0.010069,0.000097,"ms/op",16
+"Benchmarks.Tarjan.PathTest.tarjan","avgt",1,20,0.021393,0.000285,"ms/op",32
+"Benchmarks.Tarjan.PathTest.tarjan","avgt",1,20,0.049456,0.001362,"ms/op",64
+"Benchmarks.Tarjan.PathTest.tarjan","avgt",1,20,0.106336,0.000965,"ms/op",128
+"Benchmarks.Tarjan.PathTest.tarjan","avgt",1,20,0.258199,0.002675,"ms/op",256
+"Benchmarks.Tarjan.PathTest.tarjan","avgt",1,20,0.496919,0.003986,"ms/op",512
+"Benchmarks.Tarjan.PathTest.tarjan","avgt",1,20,0.959306,0.006698,"ms/op",1024
+"Benchmarks.Tarjan.PathTest.tarjan","avgt",1,20,2.077177,0.038125,"ms/op",2048
