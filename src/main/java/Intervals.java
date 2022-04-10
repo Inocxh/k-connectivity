@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 public class Intervals {
     int max;
@@ -29,15 +30,27 @@ public class Intervals {
     public ArrayList<Interval> getIntervals() {
         return intervals;
     }
+
+    public void swap() {
+        for (Interval interval: intervals) {
+            interval.swap();
+        }
+    }
+    public void reverse() {
+        Collections.reverse(intervals);
+    }
 }
 
 class Interval implements  RadixSortable {
     int a;
     int b;
+    private boolean visited = false;
+    ArrayList<Interval> connectedToo;
 
     public Interval(int a, int b) {
         this.a = a;
         this.b = b;
+        connectedToo = new ArrayList<>();
     }
     //TODO: Add reverse sort-radix flag,
     //      To reverse order, the radix function should return the radix in reverse
@@ -47,6 +60,24 @@ class Interval implements  RadixSortable {
     }
 
     public String toString() {
-        return "(" + a +","+b+")";
+        return "(" + a +"," + b +")";
+    }
+
+    public void swap() {
+        int c = a;
+        a = b;
+        b = c;
+    }
+
+    public void addConnectedTo(Interval interval) {
+        connectedToo.add(interval);
+    }
+
+    public void setVisited(Boolean visited) {
+        this.visited = visited;
+    }
+
+    public boolean getVisited() {
+        return visited;
     }
 }

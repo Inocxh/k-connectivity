@@ -102,6 +102,10 @@ public class DFSTree {
         return ordering2vertex;
     }
 
+    public int[] vertexToDFSOrder() {
+        return vertex2ordering;
+    }
+
     public int orderOf(int v) {
         return vertex2ordering[v];
     }
@@ -110,6 +114,7 @@ public class DFSTree {
     }
 
 }
+
 //Holds a tree-vertex
 class Vertex{
     public ArrayList<Integer> children;
@@ -117,8 +122,6 @@ class Vertex{
     public ArrayList<Integer> downEdges;
 
     public int parent;
-
-
 
     /// Initialize all children and parents to illegal values
     /// At the end of new DFSTree, all values are legal.

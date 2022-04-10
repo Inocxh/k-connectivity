@@ -4,6 +4,7 @@ public enum ConnectedResult {
     HasBridge,
     TwoEdgeConnected,
     TwoConnected,
+    NotThreeEdgeConnected,
     ThreeEdgeConnected,
     FourEdgeConnected,
 }
