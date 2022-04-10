@@ -1,3 +1,6 @@
+import graphs.ConnectedResult;
+import graphs.Schmidt;
+import graphs.ArrayGraph;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;

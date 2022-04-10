@@ -1,3 +1,4 @@
+package graphs;
 
 public class Schmidt {
 

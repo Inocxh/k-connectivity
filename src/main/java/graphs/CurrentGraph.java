@@ -1,3 +1,4 @@
+package graphs;
 import javax.swing.text.AsyncBoxView;
 import javax.swing.text.Segment;
 import java.util.ArrayList;

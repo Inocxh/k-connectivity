@@ -1,7 +1,10 @@
+import graphs.Mehlhorn;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.util.Scanner;
+import graphs.*;
+
 public class MehlhornTest {
     @Test
     public void blackBordTest() throws Exception {

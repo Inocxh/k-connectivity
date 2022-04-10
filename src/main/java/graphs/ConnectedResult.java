@@ -1,3 +1,5 @@
+package graphs;
+
 public enum ConnectedResult {
     None,
     NotConnected,
