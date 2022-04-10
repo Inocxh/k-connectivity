@@ -11,9 +11,6 @@ public class ChainDecomposition {
     public int[] verticesSBelong;
     private ArrayList<ArrayList<Integer>> verticesToSC;
 
-    public ChainDecomposition(DFSTree T){
-        this(T, true);
-    }
     public ChainDecomposition(DFSTree T, boolean mehlhorn){
 
         if(mehlhorn) {
