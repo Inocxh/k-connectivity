@@ -3,7 +3,7 @@ package graphs;
 import java.util.Arrays;
 
 public class Mehlhorn {
-    private static boolean printV = true;
+    private static boolean printV = false;
 
     public static ConnectedResult is3EdgeConnected(Graph G) {
         DFSTree T = new DFSTree(G, 0, false);
