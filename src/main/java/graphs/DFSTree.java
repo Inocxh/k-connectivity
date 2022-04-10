@@ -1,6 +1,7 @@
+package graphs;
+
 import util.Stack;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,8 @@ public class DFSTree {
         //TODO: Change to array
         HashSet<Integer> visited = new HashSet<>();
 
+        //This is our custom implementation of Stack.
+        //The java standard library's stack is thread-safe
         util.Stack<StackElement> stack = new Stack<>();
 
         stack.push(new StackElement(root));
@@ -124,7 +127,7 @@ class Vertex{
     public int parent;
 
     /// Initialize all children and parents to illegal values
-    /// At the end of new DFSTree, all values are legal.
+    /// At the end of new graphs.DFSTree, all values are legal.
     public Vertex() {
         children = new ArrayList<>();
         upEdges = new ArrayList<>();

@@ -1,3 +1,5 @@
+package graphs;
+
 import java.util.ArrayList;
 
 public class SegmentOwn {
