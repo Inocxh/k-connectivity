@@ -1,3 +1,5 @@
+package graphs;
+
 import graphs.Mehlhorn;
 import org.junit.jupiter.api.Test;
 
