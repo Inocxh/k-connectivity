@@ -75,15 +75,9 @@ public class ChainDecomposition {
     }
     public ArrayList<Integer> getVerticesToSC(int i) { return verticesToSC.get(i);}
     public void computeParentChains() {
-        for (int i=0; i< this.getNumberOfChains(); i++) {
-            if(i==0) {
-                chains.get(i).parent = null;
-            }
-            else {
+        for (int i=1; i< this.getNumberOfChains(); i++) {
                 int terminal = chains.get(i).terminal;
-                int parent = verticesSBelong[terminal];
-                chains.get(i).parent = chains.get(parent);
-            }
+                chains.get(i).setParent(verticesSBelong[terminal]);
         }
     }
 }
