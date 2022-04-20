@@ -1,3 +1,5 @@
+package graphs;
+
 import graphs.ConnectedResult;
 import graphs.Schmidt;
 import graphs.ArrayGraph;
