@@ -1,3 +1,5 @@
+package graphs;
+
 import graphs.Intervals;
 import org.junit.jupiter.api.Test;
 
