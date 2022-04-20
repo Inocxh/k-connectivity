@@ -1,67 +1,305 @@
 package graphs;
 
-import java.util.Arrays;
+import java.util.*;
 
 public class Mehlhorn {
-    private static boolean printV = false;
 
     public static ConnectedResult is3EdgeConnected(Graph G) {
-        DFSTree T = new DFSTree(G, 0, false);
-        ChainDecomposition chainDecomposition = new ChainDecomposition(T, true);
+        DFSTree dfsTree = new DFSTree(G, 0, false);
+        ChainDecomposition chainDecomposition = new ChainDecomposition(dfsTree, true);
         chainDecomposition.computeParentChains();
-        CurrentGraph currentGraph = new CurrentGraph(chainDecomposition.chains.get(0), chainDecomposition.chains.get(1), G.getN(), T);
+        CurrentGraph currentGraph = new CurrentGraph(G.getN(), dfsTree, chainDecomposition);
 
-        if (printV) {
-            for (int i = 0; i < chainDecomposition.getNumberOfChains(); i++) {
-                System.out.println("this is chain: " + i);
-                System.out.println(chainDecomposition.chains.get(i).vertices);
-                System.out.println("this is parent for chain: " + i);
-                if (chainDecomposition.chains.get(i).parent != null) {
-                    System.out.println(chainDecomposition.chains.get(i).parent.vertices);
-                } else {
-                    System.out.println("no parent its the root");
-                }
-            }
-
-            System.out.println("this is where the source of every chain is located: ");
-            for (int i = 0; i < T.size(); i++) {
-                if (chainDecomposition.getVerticesToSC(i) != null) {
-                    System.out.printf("vertex: %d is the source to the following Chains: %s \n", i, chainDecomposition.getVerticesToSC(i).toString());
-                }
-            }
-        }
-
-        // proccessing one chain at a time
+        // processing one chain at a time
         for (int i=0; i < chainDecomposition.chains.size(); i++) {
-            if (printV) {
-                System.out.println("The degree of the vertices are: ");
-                System.out.println(Arrays.toString(currentGraph.getDegreeOfVertices()));
-                //printing info about the current graph
-                System.out.printf("The branch vertices on chain %d are: \n", i);
+           //compute segments
+            ArrayList<SegmentOwn> segments = computeSegments(currentGraph, chainDecomposition.chains.get(i),  chainDecomposition);
 
-                for (int j : currentGraph.getBranchVertices(chainDecomposition.chains.get(i))) {
-                    System.out.println(j);
+            // subdividing the segments into interlacing and nested.
+            ArrayList<SegmentOwn> interlacing = new ArrayList<>();
+            ArrayList<SegmentOwn> nested = new ArrayList<>();
+            for (SegmentOwn segment : segments) {
+                if (interlacingCheck(dfsTree, chainDecomposition, segment)) {
+                    interlacing.add(segment);
+                }
+                else {
+                    nested.add(segment);
                 }
             }
-            boolean cutFound = currentGraph.processChain(chainDecomposition.chains.get(i),  chainDecomposition);
-            if (printV) {
-                int j = 0;
-                for (SegmentOwn segment : currentGraph.getSegments()) {
-                    System.out.printf("This is the minimal chain of segment %d: \n", j);
-                    System.out.println(segment.getMinimalChain().vertices);
-                    System.out.println("The segment contains the chains");
-                    for (Chain chains : segment.getChains())
-                        System.out.println(chains.vertices);
-                    j++;
-                }
-            }
-            if (cutFound) {
-                System.out.printf("\n The graph is not connected \n When trying to add the chains with source on chain: " + chainDecomposition.chains.get(i).vertices + "\n A cut was found \n");
+            // add all chains in a segment, where the minimal chain is interlacing
+            addSegments(currentGraph, interlacing);
+
+            //compute all the intervals for the spanning forest and see if the spanning forest is connected
+            Optional<Cut> cutFound = tryAddingNested(currentGraph, nested, chainDecomposition.chains.get(i), dfsTree, chainDecomposition);
+
+            if (cutFound.isPresent()) {
+                System.out.println(cutFound.get().toString());
                 return ConnectedResult.NotThreeEdgeConnected;
             }
-
         }
-
         return ConnectedResult.ThreeEdgeConnected;
     }
+
+
+    public static ArrayList<SegmentOwn> computeSegments(CurrentGraph currentGraph, Chain chain, ChainDecomposition chainDecomposition) {
+        ArrayList<SegmentOwn> segments = new ArrayList<>();
+        // get all chains with source on the current chain
+        ArrayList<Integer> chainsFromSource = cFromS(chain, chainDecomposition);
+
+        // computing segments for these chains
+        for (int i : chainsFromSource) {
+            if (currentGraph.getChainInGraph(i)) {
+                continue;
+            }
+            if (currentGraph.getSegmentFromC(i) != null) {
+                continue;
+            }
+            else {
+                ArrayList<Integer> chainAsList = new ArrayList<>();
+                chainAsList.add(i);
+                segments.add(setSegment(currentGraph, chainAsList, chainDecomposition));
+            }
+        }
+        return segments;
+    }
+
+    private static ArrayList<Integer> cFromS(Chain chain, ChainDecomposition chainDecomposition) {
+        ArrayList<Integer> cWithS = new ArrayList<>();
+        //setting number of vertices, we need to look at.
+        ArrayList<Integer> vertices = chain.vertices;
+        int uniqueVertices = countUniqueVertices(chain);
+        vertices = new ArrayList<Integer>(vertices.subList(0, uniqueVertices));
+        // getting the chains we are processing
+        for (int i : vertices) {
+            if(chainDecomposition.getVerticesToSC(i) != null) {
+                cWithS.addAll(chainDecomposition.getVerticesToSC(i));
+            }
+        }
+        return cWithS;
+    }
+
+    public static SegmentOwn setSegment(CurrentGraph currentGraph, ArrayList<Integer> chainsInt, ChainDecomposition chainDecomposition) {
+        while (true) {
+            Chain currentChain = chainDecomposition.chains.get(chainsInt.get(chainsInt.size()-1));
+            if (currentGraph.getChainInGraph(currentChain.getParent())) {
+                SegmentOwn segment =  new SegmentOwn(chainsInt, currentChain);
+                currentGraph.setSegmentForMultipleC(chainsInt, segment);
+                return segment;
+            }
+            else if (currentGraph.getSegmentFromC(currentChain.getParent()) != null) {
+                SegmentOwn segment = currentGraph.getSegmentFromC(currentChain.getParent());
+                currentGraph.setSegmentForMultipleC(chainsInt, segment);;
+                return segment;
+            }
+            else {
+                chainsInt.add(currentChain.getParent());
+            }
+        }
+    }
+
+    private static boolean interlacingCheck(DFSTree dfsTree, ChainDecomposition chainDecomposition, SegmentOwn segment) {
+        Chain C = segment.getMinimalChain();
+        Chain CHat = chainDecomposition.chains.get(C.getParent());
+        int sC = dfsTree.orderOf(C.vertices.get(0));
+        int tC = dfsTree.orderOf(C.vertices.get(C.vertices.size()-1));
+        int sCHat = dfsTree.orderOf(CHat.vertices.get(0));
+        int tCHat = dfsTree.orderOf(CHat.vertices.get(CHat.vertices.size()-1));
+        //interlacing check
+        if ((sCHat <= sC) && (sC <= tCHat) && (tCHat <= tC)) {
+            return true;
+        }
+        return false;
+    }
+
+    private static Optional<Cut> tryAddingNested(CurrentGraph currentGraph, ArrayList<SegmentOwn> nested, Chain currentChain, DFSTree dfsTree, ChainDecomposition chainDecomposition) {
+        if (!nested.isEmpty()) {
+            Intervals intervals = findAllIntervals(currentGraph, nested, currentChain, dfsTree, chainDecomposition);
+            Optional<Cut> connected = findSpanningForest(intervals, dfsTree, currentChain);
+            if (connected.isEmpty()) {
+                for (SegmentOwn segment : nested) {
+                    for (int chainInSegment : segment.getChains()) {
+                        currentGraph.addChain(chainInSegment);
+                    }
+                }
+            } else {
+                return connected;
+            }
+        }
+        return Optional.empty();
+    }
+
+
+    private static Intervals findAllIntervals(CurrentGraph currentGraph, ArrayList<SegmentOwn> segments, Chain currentChain, DFSTree dfsTree, ChainDecomposition chainDecomposition) {
+        int tiebreaker = 0;
+        Intervals intervals = new Intervals();
+        ArrayList<Integer> branchVertices= getBranchVertices(currentGraph, currentChain);
+
+        // adding all (-1,branch) intervals
+        for (int branchVertex : branchVertices) {
+            intervals.addInterval(-1, dfsTree.orderOf(branchVertex), tiebreaker);
+            tiebreaker ++;
+        }
+
+        // making the intervals for each segment
+        for (SegmentOwn segment : segments) {
+            ArrayList<Integer> attachmentPoints = new ArrayList<>();
+            Chain minC = segment.getMinimalChain();
+            int a_0 = dfsTree.orderOf(minC.vertices.get(0));
+            int a_k = dfsTree.orderOf(minC.vertices.get(minC.vertices.size()-1));
+            for (int chainsInSegment : segment.getChains()) {
+                if (chainDecomposition.chains.get(chainsInSegment) == segment.getMinimalChain()) {
+                    continue;
+                } else {
+                    attachmentPoints.add(dfsTree.orderOf(chainDecomposition.chains.get(chainsInSegment).vertices.get(0)));
+                }
+            }
+
+            // adding all (a_0,attachmentPoint) and (attachmentPoint,a_k) intervals
+            for (int attachmentPoint : attachmentPoints) {
+                intervals.addInterval(a_0, attachmentPoint, tiebreaker);
+                tiebreaker ++;
+                intervals.addInterval(attachmentPoint, a_k, tiebreaker);
+                tiebreaker ++;
+            }
+            // adding last interval a_0 to a_k
+            intervals.addInterval(a_0, a_k, tiebreaker);
+        }
+        // now we have all the Intervals for all segments;
+        return intervals;
+    }
+
+    private static Optional<Cut> findSpanningForest(Intervals intervals, DFSTree dfsTree, Chain currentChain) {
+        intervals.sort();
+        intervals.reverse();
+        Stack<Interval> stack = new Stack<>();
+        for (Interval interval : intervals.intervals) {
+            while ((!stack.empty()) && interval.b > stack.peek().b) {
+                stack.pop();
+            }
+            if ((!stack.empty()) && interval.b >= stack.peek().a) {
+                //finding left neighbour for current interval
+                interval.addConnectedTo(stack.peek());
+            }
+            stack.push(interval);
+        }
+        stack.clear();
+        intervals.swap();
+        intervals.sort();
+        intervals.swap();
+        for (Interval interval : intervals.intervals) {
+            while ((!stack.empty()) && interval.a < stack.peek().a) {
+                stack.pop();
+            }
+            if ((!stack.empty()) && interval.a <= stack.peek().b) {
+                //finding right neighbour for current interval
+                interval.addConnectedTo(stack.peek());
+            }
+            stack.push(interval);
+        }
+
+        return dfsConnection(intervals, dfsTree, currentChain);
+    }
+
+    private static Optional<Cut> dfsConnection(Intervals intervals, DFSTree dfsTree, Chain currentChain) {
+        Stack<Interval> stack = new Stack<>();
+        stack.push(intervals.intervals.get(0));
+        intervals.intervals.get(0).setVisited(true);
+        int size = 1;
+        while(!stack.isEmpty()) {
+            Interval interval = stack.pop();
+            for (Interval neighbour : interval.connectedToo) {
+                if(!neighbour.getVisited()) {
+                    stack.push(neighbour);
+                    neighbour.setVisited(true);
+                    size ++;
+                }
+            }
+        }
+        if (size == intervals.intervals.size()) {
+            return Optional.empty();
+        }
+        else {
+            return Optional.of(findCut(intervals, dfsTree, currentChain));
+        }
+    }
+
+    private static Cut findCut(Intervals intervals, DFSTree dfsTree, Chain currentChain) {
+        int i = 0;
+        // when every is not in one connected component intervals must not be visited by the previous dfs-search
+        while(intervals.getIntervals().get(i).getVisited()) {
+            i ++;
+        }
+        Interval unconnectedInterval = intervals.getIntervals().get(i);
+        int minimumPoint = unconnectedInterval.a;
+        int maximumPoint = unconnectedInterval.b;
+        Stack<Interval> stack = new Stack<>();
+        stack.push(unconnectedInterval);
+        unconnectedInterval.setVisited(true);
+        while(!stack.isEmpty()) {
+            Interval interval = stack.pop();
+            for (Interval neighbour : interval.connectedToo) {
+                if(!neighbour.getVisited()) {
+                    neighbour.setVisited(true);
+                    stack.push(neighbour);
+                    if (neighbour.a < minimumPoint) {
+                        minimumPoint = neighbour.a;
+                    }
+                    if (neighbour.b > maximumPoint) {
+                        maximumPoint = neighbour.b;
+                    }
+                }
+            }
+        }
+        // find x P(x), y and z.
+        int x = dfsTree.dfsToVertex(minimumPoint);
+        int pX = dfsTree.getParent(dfsTree.dfsToVertex(minimumPoint));
+        int y = dfsTree.dfsToVertex(maximumPoint);
+        int z = currentChain.vertices.get(currentChain.vertices.indexOf(y)-1);
+        return new Cut(x, pX, y, z);
+    }
+
+    private static int countUniqueVertices(Chain chain) {
+        int v = chain.vertices.size()-1;
+        if(chain.vertices.get(0) == chain.vertices.get(v)) {
+            return v;
+        }
+        return v+1;
+    }
+
+    public static ArrayList<Integer> getBranchVertices(CurrentGraph currentGraph, Chain chain) {
+        int[] degreeOfVertices = currentGraph.getDegreeOfVertices();
+        ArrayList<Integer> branchVertices = new ArrayList<>();
+        int uniqueVertices = countUniqueVertices(chain);
+        for (Integer i : chain.vertices.subList(0,uniqueVertices)) {
+            if (degreeOfVertices[i] > 2) {
+                branchVertices.add(i);
+            }
+        }
+        return branchVertices;
+    }
+
+    private static void addSegments(CurrentGraph currentGraph, ArrayList<SegmentOwn> interlacing) {
+        for (SegmentOwn segment : interlacing) {
+            for (int chainInSegment : segment.getChains()) {
+                currentGraph.addChain(chainInSegment);
+            }
+        }
+    }
+}
+
+class Cut {
+   private int x;
+   private int pX;
+   private int y;
+   private int z;
+   public Cut(int x, int pX, int y, int z) {
+       this.x = x;
+       this.pX = pX;
+       this.y = y;
+       this.z = z;
+   }
+   public String toString() {
+       return "There is a 2-edge cut in the graph, the edges in the cut are: \n 1. between the vertices: " + x + " and " + pX + "\n2. between the vertices: " + y + " and " + z;
+   }
+
 }

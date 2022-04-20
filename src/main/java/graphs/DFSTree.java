@@ -105,8 +105,8 @@ public class DFSTree {
         return ordering2vertex;
     }
 
-    public int[] vertexToDFSOrder() {
-        return vertex2ordering;
+    public int dfsToVertex(int i) {
+        return ordering2vertex[i];
     }
 
     public int orderOf(int v) {

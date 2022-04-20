@@ -16,17 +16,20 @@ public class Intervals {
     }
 
     //a >= b always
-    public void addInterval(int a, int b) {
+    public void addInterval(int a, int b, int tiebreaker) {
         if (b > max) {
             max = b;
+        }
+        if (tiebreaker > max) {
+            max = tiebreaker;
         }
         if (a < min) {
             min = a;
         }
-        intervals.add(new Interval(a,b));
+        intervals.add(new Interval(a,b,tiebreaker));
     }
     public void sort() {
-        RadixSorter<Interval> s = new RadixSorter<>(intervals, min,max,2);
+        RadixSorter<Interval> s = new RadixSorter<>(intervals, min,max,3);
         s.sort();
     }
     public ArrayList<Interval> getIntervals() {
@@ -46,19 +49,27 @@ public class Intervals {
 class Interval implements  RadixSortable {
     int a;
     int b;
+    int tiebreaker;
     private boolean visited = false;
     ArrayList<Interval> connectedToo;
 
-    public Interval(int a, int b) {
+    public Interval(int a, int b,int tiebreaker) {
         this.a = a;
         this.b = b;
+        this.tiebreaker = tiebreaker;
         connectedToo = new ArrayList<>();
     }
     //TODO: Add reverse sort-radix flag,
     //      To reverse order, the radix function should return the radix in reverse
     @Override
     public int getRadix(int radix) {
-        return (radix == 0) ? a : b;
+        if (radix == 0) {
+            return a;
+        } else if (radix == 1) {
+            return b;
+        } else {
+            return tiebreaker;
+        }
     }
 
     public String toString() {
