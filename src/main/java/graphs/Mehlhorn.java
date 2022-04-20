@@ -250,7 +250,7 @@ public class Mehlhorn {
                 }
             }
         }
-        // find x P(x), y and z.
+        // find x, P(x), y and z.
         int x = dfsTree.dfsToVertex(minimumPoint);
         int pX = dfsTree.getParent(dfsTree.dfsToVertex(minimumPoint));
         int y = dfsTree.dfsToVertex(maximumPoint);
