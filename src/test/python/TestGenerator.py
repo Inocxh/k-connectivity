@@ -11,30 +11,38 @@ class TestGenerator:
                 graph[(i + 1) * kSize - 1].append((i + 1) * kSize)         
         return graph
 
-    # Gens trees of clusters of K_x
-    def kTree(self, clusters, kSize):
-        graph = [[] for _ in range(clusters * kSize)]
-
-        for i in range(clusters):
-            self.connectAllInRange(graph, i * kSize, (i + 1) * kSize)
-            if i != 0:
-                v = random.randint(0, i * kSize)
-                graph[i * kSize].append(v)   
+    def makeK5BinaryTree(self, depth):  # just a root is considered depth 0, having 3 K_5 is considere depth 1.
+        # the depth needs to be at least 0
+        assert(depth >= 0)
+        # we determine the number of groups in the binary tree
+        number_of_groups = 0
+        for i in range(depth):
+            number_of_groups = number_of_groups + 2**i
+        #There are 5 vertices in each group
+        number_of_vertices = number_of_groups * 5
+        graph = [[] for _ in range(number_of_vertices)]
+        i = 0
+        #Connect groups internally
+        while (i < number_of_vertices):
+            self.connectAllInRange(graph, i, i+5)
+            i = i + 5
+        #Connect groups in tree structure
+        low_in_tree = 5
+        high_in_tree = 0
+        for j in range(1, depth):
+            widness_of_level = 2**(j-1)
+            # connect everything within the depth-level to the vertex above it in the binary tree
+            for z in range(widness_of_level):
+                # make 2 way connections for first child
+                graph[low_in_tree+1].append(high_in_tree)
+                graph[high_in_tree].append(low_in_tree)
+                low_in_tree = low_in_tree + 5
+                # make 2 way connections for second child
+                graph[low_in_tree+1].append(high_in_tree)
+                graph[high_in_tree].append(low_in_tree)
+                low_in_tree = low_in_tree + 5
+                high_in_tree = high_in_tree + 5
         return graph
-    
-    # Gens trees of clusters of K_x, with backedges
-    def kTreeWithBackedges(self, clusters, kSize, backedges):
-        graph = self.kTree(clusters, kSize)
-        for _ in range(backedges):
-            s = random.randint(0, len(graph) - 1)
-            t = random.randint(0, len(graph) - 1)
-            while t // kSize == s // kSize:
-                t = random.randint(0, len(graph) - 1)
-            graph[s].append(t)
-        return graph
-
-
-
 
     # Grid graph
     def gridGraph(self, size):

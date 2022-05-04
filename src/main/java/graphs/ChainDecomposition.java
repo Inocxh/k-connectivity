@@ -8,7 +8,7 @@ public class ChainDecomposition {
     public int edgeCounter = 0;
     public int cycleCounter = 0;
     public int[] verticesSBelong;
-    private ArrayList<ArrayList<Integer>> verticesToSC;
+    private ArrayList<ArrayList<Integer>> verticesToSC; // only used for Mehlhorn
 
     public ChainDecomposition(DFSTree T, boolean mehlhorn){
 
@@ -76,7 +76,7 @@ public class ChainDecomposition {
     public ArrayList<Integer> getVerticesToSC(int i) { return verticesToSC.get(i);}
     public void computeParentChains() {
         for (int i=1; i< this.getNumberOfChains(); i++) {
-                int terminal = chains.get(i).terminal;
+                int terminal = chains.get(i).getTerminal();
                 chains.get(i).setParent(verticesSBelong[terminal]);
         }
     }
