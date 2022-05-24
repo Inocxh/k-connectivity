@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 @State(Scope.Benchmark)
 public class GridTestTarjan {
-    @Param({"1","2","4","8","16","32","64","128","256","512"})
+    @Param({"4","8","16","32","64","128","256","512", "1024", "2048"})
     public int x;
 
     public ArrayGraph g;

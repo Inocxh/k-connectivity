@@ -10,6 +10,9 @@ public class SegmentOwn {
         this.minimalChain = minimalChain;
         chainsInSegment = chains;
     }
+    public void addChains(ArrayList<Integer> chains) {
+        chainsInSegment.addAll(chains);
+    }
     public Chain getMinimalChain() {
         return minimalChain;
     }

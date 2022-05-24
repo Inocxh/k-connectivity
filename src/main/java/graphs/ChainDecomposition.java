@@ -8,22 +8,16 @@ public class ChainDecomposition {
     public int edgeCounter = 0;
     public int cycleCounter = 0;
     public int[] verticesSBelong;
-    private ArrayList<ArrayList<Integer>> verticesToSC; // only used for Mehlhorn
 
     public ChainDecomposition(DFSTree T, boolean mehlhorn){
 
         if(mehlhorn) {
             verticesSBelong = new int[T.size()];
-            verticesToSC = new ArrayList<>(T.size());
-            for (int i=0; i<T.size(); i++) {
-                verticesToSC.add(null);
-            }
             verticesSBelong[0] = 0;
             chains = new ArrayList<>();
         }
 
         HashSet<Integer> visited = new HashSet<>();
-
 
         // For all vertices in increasing order
         for (int vertex : T.dfsOrder()) {
@@ -56,10 +50,6 @@ public class ChainDecomposition {
                 // if needed save the chain
                 if (mehlhorn) {
                     chains.add(new Chain(chain));
-                    if(verticesToSC.get(chain.get(0)) == null) {
-                        verticesToSC.set(chain.get(0), new ArrayList<>());
-                    }
-                    verticesToSC.get(chain.get(0)).add(chains.size()-1);
                 }
             }
         }
@@ -72,13 +62,6 @@ public class ChainDecomposition {
     }
     public int getNumberOfChains(){
         return chains.size();
-    }
-    public ArrayList<Integer> getVerticesToSC(int i) { return verticesToSC.get(i);}
-    public void computeParentChains() {
-        for (int i=1; i< this.getNumberOfChains(); i++) {
-                int terminal = chains.get(i).getTerminal();
-                chains.get(i).setParent(verticesSBelong[terminal]);
-        }
     }
 }
 

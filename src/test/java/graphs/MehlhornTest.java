@@ -13,7 +13,7 @@ public class MehlhornTest {
         File f = new File("src/test/graphs/blackboard/3edgeConnected/3edgeConnected.gr");
         //Create the graph and print it:
         ArrayGraph G = ArrayGraph.fromString(new Scanner(f));
-        Mehlhorn.is3EdgeConnected(G);
+        assert(Mehlhorn.is3EdgeConnected(G) == ConnectedResult.ThreeEdgeConnected);
     }
 
     @Test
@@ -21,7 +21,7 @@ public class MehlhornTest {
         File f = new File("src/test/graphs/blackboard/3edgeConnected/3edgeConnected2.gr");
         //Create the graph and print it:
         ArrayGraph G = ArrayGraph.fromString(new Scanner(f));
-        Mehlhorn.is3EdgeConnected(G);
+        assert(Mehlhorn.is3EdgeConnected(G) == ConnectedResult.NotThreeEdgeConnected);
     }
 
     @Test
@@ -29,7 +29,7 @@ public class MehlhornTest {
         File f = new File("src/test/graphs/blackboard/3edgeConnected/3edgeConnected3.gr");
         //Create the graph and print it:
         ArrayGraph G = ArrayGraph.fromString(new Scanner(f));
-        Mehlhorn.is3EdgeConnected(G);
+        assert(Mehlhorn.is3EdgeConnected(G) == ConnectedResult.ThreeEdgeConnected);
     }
 
     @Test
@@ -37,6 +37,14 @@ public class MehlhornTest {
         File f = new File("src/test/graphs/blackboard/3edgeConnected/2edgeCut.gr");
         //Create the graph and print it:
         ArrayGraph G = ArrayGraph.fromString(new Scanner(f));
-        Mehlhorn.is3EdgeConnected(G);
+        assert(Mehlhorn.is3EdgeConnected(G) == ConnectedResult.NotThreeEdgeConnected);
+    }
+
+    @Test
+    public void blackBordTest5() throws Exception {
+        File f = new File("src/test/graphs/blackboard/3edgeConnected/3failCase.gr");
+        //Create the graph and print it:
+        ArrayGraph G = ArrayGraph.fromString(new Scanner(f));
+        assert(Mehlhorn.is3EdgeConnected(G) == ConnectedResult.ThreeEdgeConnected);
     }
 }
