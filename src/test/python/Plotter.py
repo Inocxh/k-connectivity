@@ -34,6 +34,7 @@ class Plotter:
         if show: plt.show()
         if export: 
             #f.savefig("./images/TarjanKxPlot.pdf", bbox_inches='tight')
+<<<<<<< HEAD
             f.savefig("./images/TarjanKxPlot.pdf")
 
     
@@ -77,5 +78,11 @@ class Plotter:
         if export: 
             #f.savefig("./images/TarjanKxPlot.pdf", bbox_inches='tight')
             f.savefig("./images/TarjanK5BiTree.pdf")
+=======
+            f.savefig("./images/TarjanKxPlot.png")
+
+
+
+>>>>>>> a9a98663b3e2a41327a04899816c5bd2668f8787
 
     

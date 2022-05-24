@@ -308,5 +308,4 @@ class Cut {
    public String toString() {
        return "There is a 2-edge cut in the graph, the edges in the cut are: \n1. between the vertices: " + x + " and " + pX + "\n2. between the vertices: " + y + " and " + z;
    }
-
 }
