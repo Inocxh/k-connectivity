@@ -17,16 +17,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
     public int edgeCounter = 0;
     public int cycleCounter = 0;
     public int[] verticesSBelong;
-    private ArrayList<ArrayList<Integer>> verticesToSC;
 
     public ChainDecomposition(DFSTree T, boolean mehlhorn){
 
         if(mehlhorn) {
             verticesSBelong = new int[T.size()];
-            verticesToSC = new ArrayList<>(T.size());
-            for (int i=0; i<T.size(); i++) {
-                verticesToSC.add(null);
-            }
             verticesSBelong[0] = 0;
             chains = new ArrayList<>();
         }
@@ -64,10 +59,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
                 }
                 // if needed save the chain
                 if (mehlhorn) {
-                    if(verticesToSC.get(chain.get(0)) == null) {
-                        verticesToSC.set(chain.get(0), new ArrayList<>());
-                    }
-                    verticesToSC.get(chain.get(0)).add(chains.size()-1);
+                    chains.add(new Chain(chain));
                 }
                 addChain(chain);
                 checkBackedgeStart(T, chain);
@@ -107,13 +99,5 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
     public int getNumberOfChains(){
         return chains.size();
     }
-    public ArrayList<Integer> getVerticesToSC(int i) { return verticesToSC.get(i);}
-    public void computeParentChains() {
-        for (int i=1; i< this.getNumberOfChains(); i++) {
-                int terminal = chains.get(i).terminal;
-                chains.get(i).setParent(verticesSBelong[terminal]);
-        }
-    }
-    public ArrayList<Chain> getChains(){return chains;}
 }
 

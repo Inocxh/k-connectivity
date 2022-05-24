@@ -4,17 +4,23 @@ import java.util.*;
 
 public class Mehlhorn {
 
+    static private ArrayList<ArrayList<Integer>> cToSonC;
+
     public static ConnectedResult is3EdgeConnected(Graph G) {
         DFSTree dfsTree = new DFSTree(G, 0, false);
         ChainDecomposition chainDecomposition = new ChainDecomposition(dfsTree, true);
-        chainDecomposition.computeParentChains();
+        cToSonC = new ArrayList<>(chainDecomposition.chains.size());
+        for (int i=0; i<chainDecomposition.chains.size(); i++) {
+            cToSonC.add(new ArrayList());
+        }
+        computeParentChainsAndSource(chainDecomposition);
+
         CurrentGraph currentGraph = new CurrentGraph(G.getN(), dfsTree, chainDecomposition);
 
         // processing one chain at a time
         for (int i=0; i < chainDecomposition.chains.size(); i++) {
            //compute segments
-            System.out.println(chainDecomposition.chains.get(i).toString());
-            ArrayList<SegmentOwn> segments = computeSegments(currentGraph, chainDecomposition.chains.get(i),  chainDecomposition);
+            ArrayList<SegmentOwn> segments = computeSegments(currentGraph, i,  chainDecomposition);
 
             // subdividing the segments into interlacing and nested.
             ArrayList<SegmentOwn> interlacing = new ArrayList<>();
@@ -42,10 +48,10 @@ public class Mehlhorn {
     }
 
 
-    public static ArrayList<SegmentOwn> computeSegments(CurrentGraph currentGraph, Chain chain, ChainDecomposition chainDecomposition) {
+    public static ArrayList<SegmentOwn> computeSegments(CurrentGraph currentGraph, int chainNumber, ChainDecomposition chainDecomposition) {
         ArrayList<SegmentOwn> segments = new ArrayList<>();
         // get all chains with source on the current chain
-        ArrayList<Integer> chainsFromSource = cFromS(chain, chainDecomposition);
+        ArrayList<Integer> chainsFromSource = cToSonC.get(chainNumber);
 
         // computing segments for these chains
         for (int i : chainsFromSource) {
@@ -56,27 +62,15 @@ public class Mehlhorn {
                 continue;
             }
             else {
-                ArrayList<Integer> chainAsList = new ArrayList<>();
-                chainAsList.add(i);
-                segments.add(setSegment(currentGraph, chainAsList, chainDecomposition));
+                ArrayList<Integer> chainAsIntList = new ArrayList<>();
+                chainAsIntList.add(i);
+                SegmentOwn segment = setSegment(currentGraph, chainAsIntList, chainDecomposition);
+                if (segment != null) {
+                    segments.add(segment);
+                }
             }
         }
         return segments;
-    }
-
-    private static ArrayList<Integer> cFromS(Chain chain, ChainDecomposition chainDecomposition) {
-        ArrayList<Integer> cWithS = new ArrayList<>();
-        //setting number of vertices, we need to look at.
-        ArrayList<Integer> vertices = chain.vertices;
-        int uniqueVertices = countUniqueVertices(chain);
-        vertices = new ArrayList<Integer>(vertices.subList(0, uniqueVertices));
-        // getting the chains we are processing
-        for (int i : vertices) {
-            if(chainDecomposition.getVerticesToSC(i) != null) {
-                cWithS.addAll(chainDecomposition.getVerticesToSC(i));
-            }
-        }
-        return cWithS;
     }
 
     public static SegmentOwn setSegment(CurrentGraph currentGraph, ArrayList<Integer> chainsInt, ChainDecomposition chainDecomposition) {
@@ -89,8 +83,9 @@ public class Mehlhorn {
             }
             else if (currentGraph.getSegmentFromC(currentChain.getParent()) != null) {
                 SegmentOwn segment = currentGraph.getSegmentFromC(currentChain.getParent());
+                segment.addChains(chainsInt);
                 currentGraph.setSegmentForMultipleC(chainsInt, segment);;
-                return segment;
+                return null;
             }
             else {
                 chainsInt.add(currentChain.getParent());
@@ -165,7 +160,7 @@ public class Mehlhorn {
             // adding last interval a_0 to a_k
             intervals.addInterval(a_0, a_k, tiebreaker);
         }
-        // now we have all the Intervals for all segments;
+       // now we have all the Intervals for all segments;
         return intervals;
     }
 
@@ -180,6 +175,7 @@ public class Mehlhorn {
             if ((!stack.empty()) && interval.b >= stack.peek().a) {
                 //finding left neighbour for current interval
                 interval.addConnectedTo(stack.peek());
+                stack.peek().addConnectedTo(interval);
             }
             stack.push(interval);
         }
@@ -194,6 +190,7 @@ public class Mehlhorn {
             if ((!stack.empty()) && interval.a <= stack.peek().b) {
                 //finding right neighbour for current interval
                 interval.addConnectedTo(stack.peek());
+                stack.peek().addConnectedTo(interval);
             }
             stack.push(interval);
         }
@@ -286,6 +283,15 @@ public class Mehlhorn {
             }
         }
     }
+
+    public static void computeParentChainsAndSource(ChainDecomposition chainDecomposition) {
+        for (int i=1; i< chainDecomposition.getNumberOfChains(); i++) {
+            int terminal = chainDecomposition.chains.get(i).getTerminal();
+            int source = chainDecomposition.chains.get(i).vertices.get(0);
+            cToSonC.get(chainDecomposition.verticesSBelong[source]).add(i);
+            chainDecomposition.chains.get(i).setParent(chainDecomposition.verticesSBelong[terminal]);
+        }
+    }
 }
 
 class Cut {
@@ -300,7 +306,6 @@ class Cut {
        this.z = z;
    }
    public String toString() {
-       return "There is a 2-edge cut in the graph, the edges in the cut are: \n 1. between the vertices: " + x + " and " + pX + "\n2. between the vertices: " + y + " and " + z;
+       return "There is a 2-edge cut in the graph, the edges in the cut are: \n1. between the vertices: " + x + " and " + pX + "\n2. between the vertices: " + y + " and " + z;
    }
-
 }
