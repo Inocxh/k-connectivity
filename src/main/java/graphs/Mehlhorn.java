@@ -13,6 +13,7 @@ public class Mehlhorn {
         // processing one chain at a time
         for (int i=0; i < chainDecomposition.chains.size(); i++) {
            //compute segments
+            System.out.println(chainDecomposition.chains.get(i).toString());
             ArrayList<SegmentOwn> segments = computeSegments(currentGraph, chainDecomposition.chains.get(i),  chainDecomposition);
 
             // subdividing the segments into interlacing and nested.

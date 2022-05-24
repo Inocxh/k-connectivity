@@ -100,6 +100,7 @@ public class DFSTree {
         return vertices[v].parent;
     }
 
+    public Vertex[] getVertices(){return vertices;}
     /// Returns a list of all vertices in their DFS order
     public int[] dfsOrder() {
         return ordering2vertex;
