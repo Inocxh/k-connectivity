@@ -1,4 +1,4 @@
-package graphs;
+package util;
 
 public class StackElement {
     public int vertex;
