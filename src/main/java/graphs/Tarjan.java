@@ -1,6 +1,11 @@
 package graphs;
 
+import org.junit.jupiter.api.Test;
+
 import java.util.Arrays;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class Tarjan {
 
@@ -11,8 +16,9 @@ public class Tarjan {
         DFSTree T = new DFSTree(G, 0, postOrder);
 
         // TEST ASSERTIONS
-        assert upholdsOrderingInvariant(T,G);
-        assert isDFSTree(T,G);
+        isDFSTree(T, G);
+        upholdsOrderingInvariant(T);
+
 
         int[] H = new int[G.getN()];
 
@@ -46,18 +52,20 @@ public class Tarjan {
     }
 
     //Returns whether the numbering invariant holds for all vertices
-    static boolean upholdsOrderingInvariant(DFSTree T,Graph G) {
+    @Test
+    static void upholdsOrderingInvariant(DFSTree T) {
         //Check that the parent of the root is undefined
-        assert T.getParent(0) == -1;
+        assertEquals(-1, T.getParent(0));
         //p(v) > v for all v in G
         for (int i = 1; i < T.size(); i++) {
-            assert T.orderOf(T.getParent(i)) > T.orderOf(i);
+            assertTrue(T.orderOf(T.getParent(i)) > T.orderOf(i));
         }
-        return true;
     }
     // Verifies Lemma 2.1.2, that is all back-edges are between ancestors and descendants
-    static boolean isDFSTree(DFSTree T,Graph G) {
+    @Test
+    static void isDFSTree(DFSTree T,Graph G) {
         //For all vertices
+        boolean result = true;
         for (int i = 0; i < G.getN(); i++) {
         // Take all up-edges
             for (int ancestor : T.getUpEdges(i)) {
@@ -65,7 +73,7 @@ public class Tarjan {
         // While we haven't reached the target yet and we aren't on the root
                 while (T.getParent(current) != ancestor) {
                     if (T.getParent(current) == -1) {
-                        return false;
+                        result = false;
                     }
         // Go through the parent
                     current = T.getParent(current);
@@ -73,6 +81,6 @@ public class Tarjan {
             }
         }
         // If the outer loop successfully runs we have found parent-paths to all up edges, thus the property holds.
-        return true;
+        assertTrue(result);
     }
 }

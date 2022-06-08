@@ -21,7 +21,7 @@ public class Schmidt {
             return ConnectedResult.HasBridge;
         } else if (CD.getCCycles() > 1){
             //System.out.println("2-edge-connected, not 2-connected");
-            correctCycle(CD);
+            correctAmountCycle(CD);
             return ConnectedResult.TwoEdgeConnected;
         } else if (CD.getCCycles() == 1){
             return ConnectedResult.TwoConnected;
@@ -44,14 +44,14 @@ public class Schmidt {
     static void checkAmountOfChains(Graph G, ChainDecomposition CD){
         int n = G.getN();
         int m = G.getM();
-        assertEquals((m - n + 1), CD.getChains().size());
+        assertEquals((m - n + 1), CD.getTestChains().size());
     }
 
     @Test
-    static void correctCycle (ChainDecomposition CD){
+    static void correctAmountCycle(ChainDecomposition CD){
         int amountCycle = 0;
-        for (Chain C : CD.getChains()){
-            if (C.vertices.get(0).equals(C.terminal)) {
+        for (Chain C : CD.getTestChains()){
+            if (C.vertices.get(0).equals(C.getTerminal())) {
                 amountCycle ++;
             }
         }

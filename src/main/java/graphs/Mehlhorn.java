@@ -1,6 +1,12 @@
 package graphs;
 
+import org.junit.jupiter.api.Test;
+
+import java.lang.reflect.Array;
 import java.util.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class Mehlhorn {
 
@@ -14,11 +20,17 @@ public class Mehlhorn {
             cToSonC.add(new ArrayList());
         }
         computeParentChainsAndSource(chainDecomposition);
+        //CORRECTNESS TEST
+        chainDecomposition.chainCheckLemma2(chainDecomposition, dfsTree);
 
         CurrentGraph currentGraph = new CurrentGraph(G.getN(), dfsTree, chainDecomposition);
 
         // processing one chain at a time
         for (int i=0; i < chainDecomposition.chains.size(); i++) {
+            //CORRECTNESS TEST
+            if(i > 1){
+                currentGraph.notPartOfGCCheckerLemma6(cToSonC, i, chainDecomposition);
+            }
            //compute segments
             ArrayList<SegmentOwn> segments = computeSegments(currentGraph, i,  chainDecomposition);
 
@@ -31,6 +43,7 @@ public class Mehlhorn {
                 }
                 else {
                     nested.add(segment);
+                    nestedCheckLemma8(segment, chainDecomposition, dfsTree);
                 }
             }
             // add all chains in a segment, where the minimal chain is interlacing
@@ -43,6 +56,8 @@ public class Mehlhorn {
                 System.out.println(cutFound.get().toString());
                 return ConnectedResult.NotThreeEdgeConnected;
             }
+            //CORRECTNESS TEST
+            CurrentGraph.invarientChecker(cToSonC, i);
         }
         return ConnectedResult.ThreeEdgeConnected;
     }
@@ -84,7 +99,7 @@ public class Mehlhorn {
             else if (currentGraph.getSegmentFromC(currentChain.getParent()) != null) {
                 SegmentOwn segment = currentGraph.getSegmentFromC(currentChain.getParent());
                 segment.addChains(chainsInt);
-                currentGraph.setSegmentForMultipleC(chainsInt, segment);;
+                currentGraph.setSegmentForMultipleC(chainsInt, segment);
                 return null;
             }
             else {
@@ -292,6 +307,51 @@ public class Mehlhorn {
             chainDecomposition.chains.get(i).setParent(chainDecomposition.verticesSBelong[terminal]);
         }
     }
+
+    @Test
+    public static void nestedCheckLemma8(SegmentOwn segment, ChainDecomposition chainDecomposition, DFSTree dfsTree){
+        ArrayList<Chain> chains = chainDecomposition.chains;
+        ArrayList<Integer> segmentChain = segment.getChains();
+        Chain minimalChain = segment.getMinimalChain();
+        int attPoint1 = minimalChain.vertices.get(0);
+        int attPoint2 = minimalChain.getTerminal();
+        boolean result = false;
+        //Goes through every chain.
+        for(Integer Cchain : segmentChain){
+            //Checks if a chain in the segment has the outer most attechment points
+            if (chains.get(Cchain).vertices.get(0) == attPoint1 && chains.get(Cchain).getTerminal() == attPoint2){
+                ArrayList<Integer> chainVertices = chains.get(Cchain).vertices;
+                //Checks if every other chain in the segment has source on that chain
+                int[] treePath;
+                for(Integer Dchain : segmentChain){
+                    int sourceDChain = chains.get(Dchain).vertices.get(0);
+                    //Finds the tree path between the attachment points.
+                    int from = dfsTree.dfsToVertex(chainVertices.get(0));
+                    int to = dfsTree.dfsToVertex(chainVertices.get(chainVertices.size() - 1));
+                    if (from > to){
+                        treePath  = subArray(dfsTree.dfsOrder(), to, from);
+                    } else {
+                        treePath  = subArray(dfsTree.dfsOrder(), from, to);
+                    }
+                    if(Arrays.stream(treePath).anyMatch(x -> x == sourceDChain)){
+                        result = true;
+                    } else {
+                        result = false;
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+        assertTrue(result);
+    }
+
+
+
+    public static int[] subArray(int[] array, int beg, int end) {
+        return Arrays.copyOfRange(array, beg, end + 1);
+    }
+
 }
 
 class Cut {

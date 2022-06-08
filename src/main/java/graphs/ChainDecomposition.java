@@ -1,6 +1,6 @@
     package graphs;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -11,9 +11,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
     public class ChainDecomposition {
     //TEST VARIABLES
-    public static ArrayList<Chain> chains;
+    public static ArrayList<Chain> testChains;
 
     //REAL VARIABLES
+    public static ArrayList<Chain> chains;
     public int edgeCounter = 0;
     public int cycleCounter = 0;
     public int[] verticesSBelong;
@@ -68,36 +69,84 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
         checkVisitedVertices(T, visited);
     }
 
-    @BeforeAll
-    static void initiateVars(){
-        chains = new ArrayList<>();
-    }
-
-    @Test
-    static void checkVisitedVertices (DFSTree T, HashSet<Integer> visited) {
-        int n  = T.getVertices().length;
-        assertEquals(visited.size(), n);
-    }
-
-    @Test
-    static void checkBackedgeStart (DFSTree T, ArrayList<Integer> chain){
-        Integer v0 = chain.get(0);
-        assertTrue(T.getBackEdges(v0).contains(chain.get(1)));
-    }
-
-    @Test
-    static void addChain(ArrayList<Integer> chain){
-        chains.add(new Chain(chain));
-    }
-
     public int getCEdges(){
         return edgeCounter;
     }
     public int getCCycles(){
         return cycleCounter;
     }
-    public int getNumberOfChains(){
-        return chains.size();
+    public int getNumberOfChains() { return chains.size(); }
+
+    @BeforeEach
+    public static void initiateVars(){
+            testChains = new ArrayList<>();
+        }
+
+    @Test
+    public static void checkVisitedVertices (DFSTree T, HashSet<Integer> visited) {
+        int n  = T.getVertices().length;
+        assertEquals(visited.size(), n);
     }
+
+    @Test
+    public static void checkBackedgeStart (DFSTree T, ArrayList<Integer> chain){
+        Integer v0 = chain.get(0);
+        assertTrue(T.getBackEdges(v0).contains(chain.get(1)));
+    }
+
+    @Test
+    public static void addChain(ArrayList<Integer> chain){
+        testChains.add(new Chain(chain));
+    }
+
+    @Test
+    public ArrayList<Chain> getTestChains(){
+        return testChains;
+    }
+
+    @Test
+    public static void chainCheckLemma2 (ChainDecomposition chainDecomposition, DFSTree dfsTree){
+        ArrayList<Chain> chains = chainDecomposition.chains;
+        boolean firstCorrect = false;
+        for(Chain chain : chains){
+            int sC = dfsTree.orderOf(chain.vertices.get(0));
+            int tC = dfsTree.orderOf(chain.getTerminal());
+            //Checks 1 of lemma 2
+            assertTrue(sC <= tC);
+            //Checks 2 and 3 of lemma 2
+            if (chains.indexOf(chain) >= 1) {
+                Chain parentChain = chains.get(chain.getParent());
+                int sPC = dfsTree.orderOf(parentChain.vertices.get(0));
+                int tPC = dfsTree.orderOf(parentChain.getTerminal());
+                if (sPC <= sC && tC != dfsTree.dfsToVertex(0) && tPC < tC){
+                    firstCorrect = true;
+                } else firstCorrect = sPC <= sC && tC == dfsTree.dfsToVertex(0) && tPC == tC;
+                assertTrue(firstCorrect);
+            }
+            //Checks 4, 5 and 6 for lemma 2
+            for (int v = 0; v < dfsTree.size() - 1; v++){
+                for (int u = 0; u < dfsTree.size() - 1; u++){
+                    // TODO: Check om forloop ikke kan fjernes ved at fjerne equals
+                    for (Chain dChain : chains){
+                        if (u < v && chains.get(chainDecomposition.verticesSBelong[u]).equals(chain) && chains.get(chainDecomposition.verticesSBelong[v]).equals(dChain)){
+                            firstCorrect = chains.indexOf(chain) <= chains.indexOf(dChain);
+                        }
+                        if (u < dChain.getTerminal() && chains.get(chainDecomposition.verticesSBelong[u]).equals(chain)){
+                            firstCorrect = chains.indexOf(chain) <= chains.indexOf(dChain);
+                        }
+
+                    }
+                }
+            }
+            assertTrue(firstCorrect);
+            if (chains.indexOf(chain) >= 1){
+                Chain chain2 = chains.get(chainDecomposition.verticesSBelong[sC]);
+                firstCorrect = chains.indexOf(chain) > chains.indexOf(chain2);
+            }
+        }
+        assertTrue(firstCorrect);
+
+    }
+
 }
 
