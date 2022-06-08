@@ -1,0 +1,11 @@
+"Benchmark","Mode","Threads","Samples","Score","Score Error (99.9%)","Unit","Param: x"
+"Benchmarks.Runners.Schmidt.GridTestSchmidt.SchmidtGrid","avgt",1,20,0.002291,0.000059,"ms/op",4
+"Benchmarks.Runners.Schmidt.GridTestSchmidt.SchmidtGrid","avgt",1,20,0.450605,0.005295,"ms/op",44
+"Benchmarks.Runners.Schmidt.GridTestSchmidt.SchmidtGrid","avgt",1,20,1.978674,0.062142,"ms/op",84
+"Benchmarks.Runners.Schmidt.GridTestSchmidt.SchmidtGrid","avgt",1,20,5.169498,0.176664,"ms/op",124
+"Benchmarks.Runners.Schmidt.GridTestSchmidt.SchmidtGrid","avgt",1,20,12.186442,0.353678,"ms/op",164
+"Benchmarks.Runners.Schmidt.GridTestSchmidt.SchmidtGrid","avgt",1,20,19.684170,1.080640,"ms/op",204
+"Benchmarks.Runners.Schmidt.GridTestSchmidt.SchmidtGrid","avgt",1,20,29.443761,0.646635,"ms/op",244
+"Benchmarks.Runners.Schmidt.GridTestSchmidt.SchmidtGrid","avgt",1,20,41.579945,3.146827,"ms/op",284
+"Benchmarks.Runners.Schmidt.GridTestSchmidt.SchmidtGrid","avgt",1,20,62.527763,4.735857,"ms/op",324
+"Benchmarks.Runners.Schmidt.GridTestSchmidt.SchmidtGrid","avgt",1,20,72.681609,1.094160,"ms/op",364

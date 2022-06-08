@@ -47,4 +47,11 @@ public class MehlhornTest {
         ArrayGraph G = ArrayGraph.fromString(new Scanner(f));
         assert(Mehlhorn.is3EdgeConnected(G) == ConnectedResult.ThreeEdgeConnected);
     }
+    @Test
+    public void generatedBigTest() throws Exception {
+        File f = new File("src/test/graphs/generated/Mehlhorn/grid/364.gr");
+        //Create the graph and print it:
+        ArrayGraph G = ArrayGraph.fromString(new Scanner(f));
+        assert(Mehlhorn.is3EdgeConnected(G) == ConnectedResult.ThreeEdgeConnected);
+    }
 }

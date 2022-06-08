@@ -1,0 +1,11 @@
+"Benchmark","Mode","Threads","Samples","Score","Score Error (99.9%)","Unit","Param: x"
+"Benchmarks.Runners.Mehlhorn.GridTestMehlhorn.MehlhornGrid","avgt",1,20,0.013207,0.000453,"ms/op",4
+"Benchmarks.Runners.Mehlhorn.GridTestMehlhorn.MehlhornGrid","avgt",1,20,4.698127,0.093973,"ms/op",44
+"Benchmarks.Runners.Mehlhorn.GridTestMehlhorn.MehlhornGrid","avgt",1,20,17.083290,0.171690,"ms/op",84
+"Benchmarks.Runners.Mehlhorn.GridTestMehlhorn.MehlhornGrid","avgt",1,20,39.396850,2.611533,"ms/op",124
+"Benchmarks.Runners.Mehlhorn.GridTestMehlhorn.MehlhornGrid","avgt",1,20,71.331218,5.955533,"ms/op",164
+"Benchmarks.Runners.Mehlhorn.GridTestMehlhorn.MehlhornGrid","avgt",1,20,105.897632,1.437004,"ms/op",204
+"Benchmarks.Runners.Mehlhorn.GridTestMehlhorn.MehlhornGrid","avgt",1,20,160.046704,11.821820,"ms/op",244
+"Benchmarks.Runners.Mehlhorn.GridTestMehlhorn.MehlhornGrid","avgt",1,20,255.092978,34.723161,"ms/op",284
+"Benchmarks.Runners.Mehlhorn.GridTestMehlhorn.MehlhornGrid","avgt",1,20,311.002667,40.834897,"ms/op",324
+"Benchmarks.Runners.Mehlhorn.GridTestMehlhorn.MehlhornGrid","avgt",1,20,363.805780,40.930375,"ms/op",364

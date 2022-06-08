@@ -29,3 +29,5 @@ build/
 
 #benchmark files
 src/test/graphs/generated/
+#images
+images/

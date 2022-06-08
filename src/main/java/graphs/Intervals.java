@@ -3,6 +3,7 @@ package graphs;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 
 public class Intervals {
     int max;
@@ -14,6 +15,7 @@ public class Intervals {
         min = Integer.MAX_VALUE;
         intervals = new ArrayList<>();
     }
+
 
     //a >= b always
     public void addInterval(int a, int b, int tiebreaker) {
@@ -29,9 +31,17 @@ public class Intervals {
         intervals.add(new Interval(a,b,tiebreaker));
     }
     public void sort() {
-        RadixSorter<Interval> s = new RadixSorter<>(intervals, min,max,3);
-        s.sort();
+        Collections.sort(intervals);
+        // RadixSorter<Interval> s = new RadixSorter<>(intervals, min,max,3);
+        // s.sort();
     }
+
+    public void sortReverse() {
+        Collections.sort(intervals, new Interval.IntervalCompare());
+
+    }
+
+
     public ArrayList<Interval> getIntervals() {
         return intervals;
     }
@@ -46,7 +56,7 @@ public class Intervals {
     }
 }
 
-class Interval implements  RadixSortable {
+class Interval implements  RadixSortable, Comparable<Interval> {
     int a;
     int b;
     int tiebreaker;
@@ -92,5 +102,55 @@ class Interval implements  RadixSortable {
 
     public boolean getVisited() {
         return visited;
+    }
+
+    @Override
+    public int compareTo(Interval interval) {
+        if(a < interval.a) {
+            return -1;
+        }
+        else if (a > interval.a) {
+            return 1;
+        }
+        if(b < interval.b) {
+            return -1;
+        }
+        else if (b > interval.b) {
+            return 1;
+        }
+        if(tiebreaker < interval.tiebreaker) {
+            return -1;
+        }
+        else if (tiebreaker > interval.tiebreaker) {
+            return 1;
+        }
+
+        return 0;
+    }
+    static class IntervalCompare implements Comparator<Interval> {
+
+        @Override
+        public int compare(Interval interval1, Interval interval2) {
+            if(interval1.b < interval2.b) {
+                return -1;
+            }
+            else if (interval1.b > interval2.b) {
+                return 1;
+            }
+            if(interval1.a < interval2.a) {
+                return -1;
+            }
+            else if (interval1.a > interval2.a) {
+                return 1;
+            }
+            if(interval2.tiebreaker < interval1.tiebreaker) {
+                return -1;
+            }
+            else if (interval2.tiebreaker > interval1.tiebreaker) {
+                return 1;
+            }
+
+            return 0;
+        }
     }
 }

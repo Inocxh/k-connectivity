@@ -11,7 +11,7 @@ public class CurrentGraph {
     private ArrayList<Chain> chains;
     private SegmentOwn[] chainsToSegments;
 
-    public CurrentGraph(int n, DFSTree T, ChainDecomposition chainDecomposition) {
+    public CurrentGraph(int n, ChainDecomposition chainDecomposition) {
         chains = chainDecomposition.chains;
         degreeOfVertices = new int[n];
         inGraphChains = new boolean[chains.size()];
