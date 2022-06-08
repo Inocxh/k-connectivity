@@ -16,6 +16,7 @@ public class Intervals {
         intervals = new ArrayList<>();
     }
 
+
     //a >= b always
     public void addInterval(int a, int b, int tiebreaker) {
         if (b > max) {
@@ -39,6 +40,8 @@ public class Intervals {
         Collections.sort(intervals, new Interval.IntervalCompare());
 
     }
+
+
     public ArrayList<Interval> getIntervals() {
         return intervals;
     }

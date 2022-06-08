@@ -3,6 +3,7 @@ package graphs.Nadara;
 import graphs.DFSTree;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MinMaxOracle {
     WeightedPaths lows;
@@ -10,10 +11,13 @@ public class MinMaxOracle {
     WeightedPaths maxDns;
     WeightedPaths minDns;
     WeightedPaths ddc; //DeepestDownCut
-    WeightedPaths ddcNoMin; //DeepestDownCut
-    WeightedPaths ddcNoMax; //DeepestDownCut
 
     LCA lca;
+    int[] DDCs;
+    int[] DDCNoMins;
+    int[] DDCNoMaxs;
+
+
     DFSTree T;
 
     ArrayList<ArrayList<Integer>> lowPaths;
@@ -21,8 +25,6 @@ public class MinMaxOracle {
     ArrayList<ArrayList<Integer>> maxDnPaths;
     ArrayList<ArrayList<Integer>> minDnPaths;
     ArrayList<ArrayList<Integer>> ddcPaths;
-    ArrayList<ArrayList<Integer>> ddcNoMinPaths;
-    ArrayList<ArrayList<Integer>> ddcNoMaxPaths;
 
     public MinMaxOracle(DFSTree T, DepthOracle depths) {
         lca = new LCA(T);
@@ -32,6 +34,11 @@ public class MinMaxOracle {
         computeMaxUps(T);
         computeMinDns(T);
         computeMaxDns(T);
+
+        DDCs = new int[T.size()];
+        DDCNoMaxs = new int[T.size()];
+        DDCNoMins = new int[T.size()];
+        computeDDCs(T);
 
         computeDDCPaths(T,depths);
     }
@@ -97,6 +104,49 @@ public class MinMaxOracle {
         }
         minDns = new WeightedPaths(T,minDnPaths,minDnWeights,2,T.size());
     }
+    void computeDDCs(DFSTree T) {
+        ArrayList<ArrayList<Query>> queries = new ArrayList<>(T.size());
+        boolean[] colors = new boolean[T.size()];
+        for (int i = 0; i < T.size(); i++) {
+            queries.add(new ArrayList<Query>());
+        }
+        //Start at 1 as root not involved
+        for (int v = 1; v < T.size(); v++) {
+            Query DDC = new Query(v,minDn1(v).get(0),maxDn1(v).get(0),DdcCase.Standard);
+            Query DDCNoMax = new Query(v,minDn1(v).get(0),maxDn2(v).get(0),DdcCase.NoMax);
+            Query DDCNoMin = new Query(v,minDn2(v).get(0),maxDn1(v).get(0),DdcCase.NoMin);
+            addQuery(queries,DDC);
+            addQuery(queries,DDCNoMax);
+            addQuery(queries,DDCNoMin);
+        }
+        SetUnion F = new SetUnion(T.size());
+        for (int i = T.dfsPreOrder().length-1; i > 0; i--) {
+            int v = T.dfsPreOrder()[i];
+            int order = T.getPre(v);
+            for (int child : T.getChildren(v)) {
+                F.union(order,T.getPre(child));
+            }
+            colors[v] = true;
+            for (Query q : queries.get(v)) {
+                int other = q.max != v ? q.max : q.min;
+                if (colors[other] == true) {
+                    int lca = T.pre2vertex(F.lowest(T.getPre(other)));
+                    switch (q.c) {
+                        case Standard -> {
+                            DDCs[q.vertex] = lca;
+                        }
+                        case NoMin -> {
+                            DDCNoMins[q.vertex] = lca;
+                        }
+                        case NoMax -> {
+                            DDCNoMaxs[q.vertex] = lca;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     void computeDDCPaths(DFSTree T, DepthOracle O) {
         // Two tree edges, lower case TODO Lowest common ancestor in lg(n) time
         //Construct paths
@@ -109,10 +159,10 @@ public class MinMaxOracle {
             }
             //Find deepest down cut
             //We add up-edges, such that the path consists of [tail,head]
-            Integer maxDnTail = maxDn1(v).get(0);
-            Integer minDnTail = minDn1(v).get(0);
+            //Integer maxDnTail = maxDn1(v).get(0);
+            //Integer minDnTail = minDn1(v).get(0);
 
-            int ddc = lca.lca(maxDnTail,minDnTail);
+            int ddc = DDCs[v];//lca.lca(maxDnTail,minDnTail);
             ddc = T.getPre(ddc) < T.getPre(v) ? v : ddc;
             //Weigh path with depth of DDC
             ArrayList<Integer> path = new ArrayList<>();
@@ -124,6 +174,11 @@ public class MinMaxOracle {
             weights.add(T.size()-O.depth(v));
         }
         ddc = new WeightedPaths(T,ddcPaths,weights,1,T.size());
+    }
+
+    void addQuery(ArrayList<ArrayList<Query>> queries, Query q) {
+        queries.get(q.min).add(q);
+        queries.get(q.max).add(q);
     }
 
     public boolean has3Lows(int v) {
@@ -169,22 +224,38 @@ public class MinMaxOracle {
         return ddcPaths.get(ddc.maxKthPathIndex(v,0));
     }
     public int DdcNoMin(int v) {
-        Integer maxDnTail = maxDn1(v).get(0);
-        Integer minDnTail = minDn2(v).get(0);
+        //Integer maxDnTail = maxDn1(v).get(0);
+        //Integer minDnTail = minDn2(v).get(0);
 
-        int ddc = lca.lca(maxDnTail,minDnTail);
+        int ddc = DDCNoMins[v]; //lca.lca(maxDnTail,minDnTail);
         ddc = T.getPre(ddc) < T.getPre(v) ? v : ddc;
         return ddc;
     }
     public int DdcNoMax(int v) {
-        Integer maxDnTail = maxDn2(v).get(0);
-        Integer minDnTail = minDn1(v).get(0);
+        //Integer maxDnTail = maxDn2(v).get(0);
+        // Integer minDnTail = minDn1(v).get(0);
 
-        int ddc = lca.lca(maxDnTail,minDnTail);
+        int ddc = DDCNoMaxs[v]; //lca.lca(maxDnTail,minDnTail);
         ddc = T.getPre(ddc) < T.getPre(v) ? v : ddc;
         return ddc;
     }
 
+    class Query {
+        int vertex;
+        public int min;
+        public int max;
+        public DdcCase c;
+        public Query(int vertex, int min, int max, DdcCase c) {
+            this.vertex = vertex;
+            this.min = min;
+            this.max = max;
+            this.c = c;
+        }
+
+        public String toString() {
+            return "[" + vertex+","+min+","+max+","+c+"]";
+        }
+    }
     enum DdcCase {
         Standard,
         NoMin,
