@@ -1,4 +1,4 @@
-package Benchmarks.Tarjan;
+package Benchmarks.Runners.Tarjan;
 
 import Benchmarks.BenchmarkRunner;
 import graphs.Tarjan;
@@ -13,14 +13,14 @@ import java.util.Scanner;
 
 @State(Scope.Benchmark)
 public class KxTestTarjan {
-    @Param({"4","8","16","32","64","128","256","512", "1024", "2048"})
+    @Param({"4","44","84","124","164","204", "244", "284","324","364"})
     public int x;
 
     public ArrayGraph g;
 
     @Setup(Level.Trial)
     public void setup() throws Exception {
-        String path = "src/test/graphs/generated/kx-kx/" + x + ".gr";
+        String path = "src/test/graphs/generated/TarjanAndSchmidt/kx-kx/" + x + ".gr";
         File f = new File(path);
         g = ArrayGraph.fromString(new Scanner(f));
     }
@@ -34,7 +34,7 @@ public class KxTestTarjan {
         Options o = BenchmarkRunner
                 .getOptions()
                 .include(KxTestTarjan.class.getSimpleName())
-                .result("./src/test/java/Benchmarks/Results/TarjanKx.csv")
+                .result("./src/test/java/Benchmarks/Results/Tarjan/TarjanKx.csv")
                 .build();
         new Runner(o).run();
     }

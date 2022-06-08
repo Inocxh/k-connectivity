@@ -1,0 +1,11 @@
+"Benchmark","Mode","Threads","Samples","Score","Score Error (99.9%)","Unit","Param: x"
+"Benchmarks.Runners.Mehlhorn.K5BiTreeTestMehlhorn.SchmidtBiTree","avgt",1,20,0.010556,0.000341,"ms/op",2
+"Benchmarks.Runners.Mehlhorn.K5BiTreeTestMehlhorn.SchmidtBiTree","avgt",1,20,0.032352,0.000493,"ms/op",3
+"Benchmarks.Runners.Mehlhorn.K5BiTreeTestMehlhorn.SchmidtBiTree","avgt",1,20,0.076371,0.000474,"ms/op",4
+"Benchmarks.Runners.Mehlhorn.K5BiTreeTestMehlhorn.SchmidtBiTree","avgt",1,20,0.158133,0.004265,"ms/op",5
+"Benchmarks.Runners.Mehlhorn.K5BiTreeTestMehlhorn.SchmidtBiTree","avgt",1,20,0.345285,0.003982,"ms/op",6
+"Benchmarks.Runners.Mehlhorn.K5BiTreeTestMehlhorn.SchmidtBiTree","avgt",1,20,0.725775,0.006987,"ms/op",7
+"Benchmarks.Runners.Mehlhorn.K5BiTreeTestMehlhorn.SchmidtBiTree","avgt",1,20,1.434275,0.033268,"ms/op",8
+"Benchmarks.Runners.Mehlhorn.K5BiTreeTestMehlhorn.SchmidtBiTree","avgt",1,20,2.955267,0.069774,"ms/op",9
+"Benchmarks.Runners.Mehlhorn.K5BiTreeTestMehlhorn.SchmidtBiTree","avgt",1,20,6.200857,0.064693,"ms/op",10
+"Benchmarks.Runners.Mehlhorn.K5BiTreeTestMehlhorn.SchmidtBiTree","avgt",1,20,13.153790,0.929618,"ms/op",11

@@ -1,0 +1,11 @@
+"Benchmark","Mode","Threads","Samples","Score","Score Error (99.9%)","Unit","Param: x"
+"Benchmarks.Runners.Schmidt.K5BiTreeTestSchmidt.SchmidtBiTree","avgt",1,20,0.002667,0.000008,"ms/op",2
+"Benchmarks.Runners.Schmidt.K5BiTreeTestSchmidt.SchmidtBiTree","avgt",1,20,0.006355,0.000015,"ms/op",3
+"Benchmarks.Runners.Schmidt.K5BiTreeTestSchmidt.SchmidtBiTree","avgt",1,20,0.013592,0.000036,"ms/op",4
+"Benchmarks.Runners.Schmidt.K5BiTreeTestSchmidt.SchmidtBiTree","avgt",1,20,0.029470,0.000078,"ms/op",5
+"Benchmarks.Runners.Schmidt.K5BiTreeTestSchmidt.SchmidtBiTree","avgt",1,20,0.063719,0.000307,"ms/op",6
+"Benchmarks.Runners.Schmidt.K5BiTreeTestSchmidt.SchmidtBiTree","avgt",1,20,0.141523,0.002311,"ms/op",7
+"Benchmarks.Runners.Schmidt.K5BiTreeTestSchmidt.SchmidtBiTree","avgt",1,20,0.289677,0.006267,"ms/op",8
+"Benchmarks.Runners.Schmidt.K5BiTreeTestSchmidt.SchmidtBiTree","avgt",1,20,0.573981,0.002529,"ms/op",9
+"Benchmarks.Runners.Schmidt.K5BiTreeTestSchmidt.SchmidtBiTree","avgt",1,20,1.180589,0.023756,"ms/op",10
+"Benchmarks.Runners.Schmidt.K5BiTreeTestSchmidt.SchmidtBiTree","avgt",1,20,2.913533,0.240485,"ms/op",11

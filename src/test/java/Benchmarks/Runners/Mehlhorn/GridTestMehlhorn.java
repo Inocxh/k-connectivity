@@ -1,8 +1,9 @@
-package Benchmarks.Tarjan;
+package Benchmarks.Runners.Mehlhorn;
 
 import Benchmarks.BenchmarkRunner;
 import graphs.ArrayGraph;
-import graphs.Tarjan;
+import graphs.Mehlhorn;
+import graphs.Schmidt;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
@@ -12,29 +13,29 @@ import java.io.File;
 import java.util.Scanner;
 
 @State(Scope.Benchmark)
-public class K5TreeBackedgeTestTarjan {
-    @Param({"1","2","4","8","16","32","64","128","256","512"})
+public class GridTestMehlhorn {
+    @Param({"4","44","84","124","164","204", "244", "284","324","364"})
     public int x;
 
     public ArrayGraph g;
 
     @Setup(Level.Trial)
     public void setup() throws Exception {
-        String path = "src/test/graphs/generated/k5-tree-backedges/" + x + ".gr";
+        String path = "src/test/graphs/generated/Mehlhorn/grid/" + x + ".gr";
         File f = new File(path);
         g = ArrayGraph.fromString(new Scanner(f));
     }
 
     @Benchmark
-    public void tarjanK5TreeBackedge() {
-        Tarjan.is1EdgeConnected(g);
+    public void MehlhornGrid() {
+        Mehlhorn.is3EdgeConnected(g);
     }
 
     public static void main(String[] args) throws RunnerException {
         Options o = BenchmarkRunner
                 .getOptions()
-                .include(K5TreeBackedgeTestTarjan.class.getSimpleName())
-                .result("./src/test/java/Benchmarks/Results/TarjanK5TreeBackedge.csv")
+                .include(GridTestMehlhorn.class.getSimpleName())
+                .result("./src/test/java/Benchmarks/Results/Mehlhorn/MehlhornGrid.csv")
                 .build();
         new Runner(o).run();
     }

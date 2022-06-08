@@ -10,17 +10,18 @@ public class Mehlhorn {
         DFSTree dfsTree = new DFSTree(G, 0, false);
         ChainDecomposition chainDecomposition = new ChainDecomposition(dfsTree, true);
         cToSonC = new ArrayList<>(chainDecomposition.chains.size());
-        for (int i=0; i<chainDecomposition.chains.size(); i++) {
+        for (int i = 0; i < chainDecomposition.chains.size(); i++) {
             cToSonC.add(new ArrayList());
         }
+
         computeParentChainsAndSource(chainDecomposition);
 
-        CurrentGraph currentGraph = new CurrentGraph(G.getN(), dfsTree, chainDecomposition);
+        CurrentGraph currentGraph = new CurrentGraph(G.getN(), chainDecomposition);
 
         // processing one chain at a time
-        for (int i=0; i < chainDecomposition.chains.size(); i++) {
-           //compute segments
-            ArrayList<SegmentOwn> segments = computeSegments(currentGraph, i,  chainDecomposition);
+        for (int i = 0; i < chainDecomposition.chains.size(); i++) {
+            //compute segments
+            ArrayList<SegmentOwn> segments = computeSegments(currentGraph, i, chainDecomposition);
 
             // subdividing the segments into interlacing and nested.
             ArrayList<SegmentOwn> interlacing = new ArrayList<>();
@@ -28,8 +29,7 @@ public class Mehlhorn {
             for (SegmentOwn segment : segments) {
                 if (interlacingCheck(dfsTree, chainDecomposition, segment)) {
                     interlacing.add(segment);
-                }
-                else {
+                } else {
                     nested.add(segment);
                 }
             }
@@ -40,7 +40,7 @@ public class Mehlhorn {
             Optional<Cut> cutFound = tryAddingNested(currentGraph, nested, chainDecomposition.chains.get(i), dfsTree, chainDecomposition);
 
             if (cutFound.isPresent()) {
-                System.out.println(cutFound.get().toString());
+                // System.out.println(cutFound.get().toString());  // this line can be uncommented to print existing cuts, this is commented out to avoid too much print with Benchmark tests.
                 return ConnectedResult.NotThreeEdgeConnected;
             }
         }
@@ -160,7 +160,7 @@ public class Mehlhorn {
             // adding last interval a_0 to a_k
             intervals.addInterval(a_0, a_k, tiebreaker);
         }
-       // now we have all the Intervals for all segments;
+        // now we have all the Intervals for all segments;
         return intervals;
     }
 
@@ -180,9 +180,7 @@ public class Mehlhorn {
             stack.push(interval);
         }
         stack.clear();
-        intervals.swap();
-        intervals.sort();
-        intervals.swap();
+        intervals.sortReverse();
         for (Interval interval : intervals.intervals) {
             while ((!stack.empty()) && interval.a < stack.peek().a) {
                 stack.pop();
