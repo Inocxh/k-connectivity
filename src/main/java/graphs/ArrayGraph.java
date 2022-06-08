@@ -33,14 +33,13 @@ public class ArrayGraph implements Graph{
         return vertices.get(v);
     }
 
-    @Override
     public void addEdge(int v, int w) {
         vertices.get(v).add(w);
         vertices.get(w).add(v);
         m += 1;
     }
 
-    public static ArrayGraph fromString(Scanner s) throws Exception {
+    public static ArrayGraph fromString(Scanner s) {
         int edge = 0;
         try {
             int nIn = s.nextInt();

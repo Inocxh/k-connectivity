@@ -1,4 +1,4 @@
-package graphs;
+package graphs.Nadara;
 
 public class SetUnion {
     int[] p;

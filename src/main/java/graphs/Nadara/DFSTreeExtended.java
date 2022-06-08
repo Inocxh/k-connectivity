@@ -1,5 +1,7 @@
-package graphs;
+package graphs.Nadara;
 
+import graphs.Graph;
+import util.StackElement;
 import util.Stack;
 
 import java.util.ArrayList;
@@ -20,17 +22,19 @@ public class DFSTreeExtended {
         //Initialize maps
         preOrder = new int[n];
         postOrder = new int[n];
-        pre2vertex = new int[2 * n]; // Todo fix.
-        post2vertex = new int[2 * n];
+        pre2vertex = new int[n]; // Todo fix.
+        post2vertex = new int[n];
 
 
         vertices = new Vertex2[n];
         for (int i = 0; i < n; i++) {
             vertices[i] = new Vertex2();
             preOrder[i] = -1;
+            postOrder[i] = -1;
         }
 
-        int i = 0;
+        int currentPre = 0;
+        int currentPost = 0;
         // Todo change to array
         HashSet<Integer> visited = new HashSet<>();
 
@@ -45,9 +49,9 @@ public class DFSTreeExtended {
         while (!stack.isEmpty()) {
             StackElement currentNode = stack.pop();
             if (preOrder[currentNode.vertex] == -1){
-                preOrder[currentNode.vertex] = i;
-                pre2vertex[i] = currentNode.vertex;
-                i++;
+                preOrder[currentNode.vertex] = currentPre;
+                pre2vertex[currentPre] = currentNode.vertex;
+                currentPre++;
             }
 
             List<Integer> neighbours = G.getNeighbours(currentNode.vertex);
@@ -76,7 +80,7 @@ public class DFSTreeExtended {
                     visited.add(neighbour);
                     break;
                 } else { // Neighbour is visited. If parent edge, we mark. If not parent edge we add.
-                    if (preOrder[neighbour] != -1) {
+                    if (postOrder[neighbour] != -1) {
                         vertices[currentNode.vertex].downEdges.add(neighbour);
                         vertices[neighbour].upEdges.add(currentNode.vertex);
                     }
@@ -84,9 +88,9 @@ public class DFSTreeExtended {
             }
             //Assign ordering to current node depending on postorder or not.
             if (!repushed) {
-                postOrder[currentNode.vertex] = i;
-                post2vertex[i] = currentNode.vertex;
-                i++;
+                postOrder[currentNode.vertex] = currentPost;
+                post2vertex[currentPost] = currentNode.vertex;
+                currentPost++;
             }
         }
         // If size != n then the graph is not connected.
@@ -96,7 +100,7 @@ public class DFSTreeExtended {
 
 
     public boolean isAncestor(int u, int v){
-        return getPre(u) <= getPre(v) && getPost(u) >= getPre(v);
+        return getPre(u) <= getPre(v); //&& getPost(u) >= getPost(v);
     }
     /// Returns the children in the DFS tree of vertex v
     public ArrayList<Integer> getChildren(int v) {
@@ -119,6 +123,9 @@ public class DFSTreeExtended {
     public int[] dfsPreOrder() {
         return pre2vertex;
     } // Todo fix
+    public int pre2vertex(int u) {
+        return pre2vertex[u];
+    }
     public int[] dfsPostOrder() {
         return post2vertex;
     }
@@ -133,14 +140,27 @@ public class DFSTreeExtended {
     public int size() {
         return size;
     }
-
+    public int[] getPres(){
+        return preOrder;
+    }
 
     public int getPre(int u) {
         return preOrder[u];
     }
+    public int getPre(Integer u) {
+        return u == null ? Integer.MAX_VALUE : preOrder[u];
+    }
 
     public int getPost(int u) {
         return postOrder[u];
+    }
+
+    public void printDFSTree(int u) {
+        while (u != 0) {
+            System.out.print(u + " -> ");
+            u = getParent(u);
+        }
+        System.out.println();
     }
 }
 

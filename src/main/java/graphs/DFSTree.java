@@ -1,6 +1,7 @@
 package graphs;
 
 import util.Stack;
+import util.StackElement;
 
 import java.util.HashSet;
 import java.util.ArrayList;
@@ -115,6 +116,20 @@ public class DFSTree {
     public int size() {
         return size;
     }
+    //Remnants of DFSTreeExtended methods
+    public boolean isAncestor(int u, int v) {
+        return orderOf(u) <= orderOf(v);
+    }
+    public int getPre(int v) {
+        return orderOf(v);
+    }
+    public int pre2vertex(int v) {
+        return dfsToVertex(v);
+    }
+    public int[] dfsPreOrder() {
+        return dfsOrder();
+    }
+
 
 }
 
@@ -138,12 +153,3 @@ class Vertex{
 
 }
 
-class StackElement {
-    public int vertex;
-    public int lastInspected = 0;
-
-    public StackElement(int v) {
-        vertex = v;
-    }
-
-}
