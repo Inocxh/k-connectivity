@@ -1,5 +1,9 @@
 package graphs.Nadara;
 
+/*
+This file contains an implementation of the the UnionFind datastructure with weighted unions and path compression as decribed in Algorithms and Datastructures 1
+We augment the datastructure with a Set.lowest call that in O(1) time returns the minimum element of find(v)
+ */
 public class SetUnion {
     int[] p;
     int[] sz;

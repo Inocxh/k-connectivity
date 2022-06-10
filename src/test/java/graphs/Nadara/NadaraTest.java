@@ -5,10 +5,6 @@ import graphs.DFSTree;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 
@@ -19,7 +15,7 @@ public class NadaraTest {
         File f = new File("src/test/graphs/correctness/nadara/3para.gr");
         ArrayGraph g = ArrayGraph.fromString(new Scanner(f));
 
-        System.out.println(Nadara.Nadara(g));
+        System.out.println(Nadara.is4EdgeConnected(g));
     }
 
     @Test
@@ -27,14 +23,14 @@ public class NadaraTest {
         File f = new File("src/test/graphs/correctness/nadara/lower.gr");
         ArrayGraph g = ArrayGraph.fromString(new Scanner(f));
 
-        System.out.println(Nadara.Nadara(g));
+        System.out.println(Nadara.is4EdgeConnected(g));
     }
     @Test
     public void lowerCase2() throws Exception {
         File f = new File("src/test/graphs/correctness/nadara/lower2.gr");
         ArrayGraph g = ArrayGraph.fromString(new Scanner(f));
 
-        System.out.println(Nadara.Nadara(g));
+        System.out.println(Nadara.is4EdgeConnected(g));
     }
 
     @Test
@@ -42,14 +38,14 @@ public class NadaraTest {
         File f = new File("src/test/graphs/correctness/nadara/upper.gr");
         ArrayGraph g = ArrayGraph.fromString(new Scanner(f));
 
-        System.out.println(Nadara.Nadara(g));
+        System.out.println(Nadara.is4EdgeConnected(g));
     }
     @Test
     public void upperCase2() throws Exception {
         File f = new File("src/test/graphs/correctness/nadara/upperNoMax.gr");
         ArrayGraph g = ArrayGraph.fromString(new Scanner(f));
 
-        System.out.println(Nadara.Nadara(g));
+        System.out.println(Nadara.is4EdgeConnected(g));
     }
 
     @Test
@@ -57,7 +53,7 @@ public class NadaraTest {
         File f = new File("src/test/graphs/correctness/nadara/minfuncs.gr");
         ArrayGraph g = ArrayGraph.fromString(new Scanner(f));
 
-        System.out.println(Nadara.Nadara(g));
+        System.out.println(Nadara.is4EdgeConnected(g));
     }
 
     @Test

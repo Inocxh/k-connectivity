@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+/*
+    DEAD CODE!
+    Remains of an DFStree with postorder, not used as preorder is enough.
+ */
 public class DFSTreeExtended {
     private final int[] preOrder;
     private final int[] postOrder;
@@ -163,9 +167,6 @@ public class DFSTreeExtended {
         System.out.println();
     }
 }
-
-
-
 class Vertex2{
     public ArrayList<Integer> children;
     public ArrayList<Integer> upEdges;

@@ -3,6 +3,11 @@ package graphs.Nadara;
 import graphs.DFSTree;
 
 import java.util.ArrayList;
+/*
+    The U-grpah as decribed in report
+    The vertices are the tree edges of T, and e is a parent of f if maxUp1(f).head = e.tail
+ */
+
 
 public class UGraph {
     DFSTreeExtended T;
