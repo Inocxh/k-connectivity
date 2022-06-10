@@ -16,6 +16,11 @@ public class Pair{
 
     @Override
     public boolean equals(Object o) {
+        /*
+            The below 3 lines of code are standard generated code for java, this is to implement the standard method compare.
+            The last line just compares pairs, such that both (1,3) and (3,1( are equal, but also (1,2) is equal to (2,1),
+            since we are using undirected edges.
+         */
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Pair pair = (Pair) o;
@@ -24,6 +29,7 @@ public class Pair{
 
     @Override
     public int hashCode() {
+        // reducing object to integer, such that its possible to use a hashing function.
         return Objects.hash(fst, sec);
     }
 }

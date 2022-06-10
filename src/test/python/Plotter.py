@@ -42,16 +42,16 @@ class Plotter:
 
     def setOptions(self, plt, type_graph, test_case):
         name = ""
-        if (test_case==1): name = "Tarjan: "
-        elif (test_case==2): name = "Schmidt: "
-        elif (test_case==3): name = "Mehlhorn: "
-        elif (test_case==4): name = "Nadara: "
+        if (test_case==1): name = "2-edge-connectivity: "
+        elif (test_case==2): name = "2-edge-and-vertex-connectivity: "
+        elif (test_case==3): name = "3-edge-connectivity: "
+        elif (test_case==4): name = "4-edge-connectivity: "
         if (type_graph==1): name = name + "Dense graph"
-        elif (type_graph==2): name = name + "Grid"
+        elif (type_graph==2): name = name + "Grid graph"
         elif (type_graph==3): name = name + "Binary tree of K5\'s"
         plt.title(name, weight='bold').set_fontsize('12')
-        plt.xlabel('Input size (n + m)', fontsize=11)
-        plt.ylabel('Execution time (ms)', fontsize=11)
+        plt.xlabel('Input size (n + m)', fontsize=16)
+        plt.ylabel('Execution time (ms)', fontsize=16)
 
     def read_csv(self, type_graph, test_case):
         #type_graph and test_case is described in the method plot 
@@ -134,7 +134,7 @@ class Plotter:
 
         self.setOptions(plt, type_graph, test_case)
 
-        plt.errorbar(mn, time, yerr=err1, fmt="o", markersize=3, label="Kx")
+        plt.errorbar(mn, time, yerr=err1, fmt="o", markersize=6, label="Kx")
 
         # plt.legend(loc='lower right')
         if show: plt.show()

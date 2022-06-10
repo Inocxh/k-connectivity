@@ -9,12 +9,11 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 /*
-
     This class contains an implementation of the algorithm described in a paper by Nadara et. al.
     The algorithm was modified to test for four-edge-connectivity instead of reporting all three-edge-cuts.
     Although all three edge cuts can easily be found by removing return statements, this implementation is unable to report the original edges in the graph in linear time.
-
  */
+
 public class Nadara {
     // Outwards facing function that takes any graph and returns whether it is four-edge-connected or not
     public static ConnectedResult Nadara(Graph G) {

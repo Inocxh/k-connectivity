@@ -1,7 +1,9 @@
 package graphs.Nadara;
 
 import graphs.ArrayGraph;
+import graphs.ConnectedResult;
 import graphs.DFSTree;
+import graphs.Mehlhorn;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -77,6 +79,13 @@ public class NadaraTest {
                 System.out.println(v+","+u+";"+name);
             }
         }
+    }
+    @Test
+    public void generatedBigTest() throws Exception {
+        File f = new File("src/test/graphs/generated/Nadara/grid/364.gr");
+        //Create the graph and print it:
+        ArrayGraph G = ArrayGraph.fromString(new Scanner(f));
+        assert(Nadara.Nadara(G) == ConnectedResult.FourEdgeConnected);
     }
 
 }

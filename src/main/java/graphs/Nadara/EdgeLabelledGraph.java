@@ -5,13 +5,26 @@ import graphs.DFSTree;
 import graphs.Graph;
 import java.util.*;
 
-//ArrayGraph with edge names
+/*
+    If we reach the case, where we are trying to find a 3 edge cut with only edges from the DFS-tree,
+    we need to be able to contract the non-tree edges of the graph, this is done in this class. Further a
+    labeling is stored to be able to determine the edges in the original graph, if a cut is found after the
+    contraction of the original graph.
+ */
+
 public class EdgeLabelledGraph implements Graph{
     Graph G;
     ArrayList<ArrayList<Pair>> names;
     HashMap<Pair,Integer> takenNames;
 
     public EdgeLabelledGraph(Graph g) {
+        /*
+            The creation of the graph is just giving each edge a name from a vertex to its neighbour.
+            These names are consistent through all the contraction, so if new contracted graphs are generated, no new names are generated,
+            the new edges just inherit the names of the edges they represent in the original graph.
+            For the above reason this constructor is only run a single time, no mater the number of recursive contractions.
+
+         */
         G = g;
         names = new ArrayList<>();
         for (int v = 0; v < G.getN(); v++) {
@@ -27,13 +40,19 @@ public class EdgeLabelledGraph implements Graph{
     }
 
     public EdgeLabelledGraph contract(DFSTree T) {
-        // Saves the component this vertex belongs to in the contracted graph.
-        int[] vertex2component = new int[G.getN()];
-        int components = connectedComponents(T, vertex2component);
-        // Find connected components
+        /*
+            This method contracts all non tree edges.
+            And saves the components for which each vertex belongs to original graph without tree edges.
+         */
 
-        // Transfer edges from components to new graph
+        int[] vertex2component = new int[G.getN()];
+        // Find connected components
+        int components = connectedComponents(T, vertex2component);
+
+        // create new graph with vertices corresponding to the found connected components in the original
         ArrayGraph contracted = new ArrayGraph(components);
+        // The next 20 lines, transfer edges from components to new graph, edges are added to the new graph,
+        // only if they connect two distinct components, all other edges will disappear with the contraction.
         ArrayList<ArrayList<Pair>> contractedEdgeNames= new ArrayList<>();
         for (int i = 0; i < components; i++) {
             contractedEdgeNames.add(new ArrayList<>());
@@ -55,6 +74,7 @@ public class EdgeLabelledGraph implements Graph{
                 }
             }
         }
+        // Create a new graph, that inherit edges and names.
         EdgeLabelledGraph out = new EdgeLabelledGraph();
         out.G = contracted;
         out.names = contractedEdgeNames;
@@ -62,9 +82,11 @@ public class EdgeLabelledGraph implements Graph{
     }
 
     int connectedComponents(DFSTree T, int[] vertex2component) {
+        // this functions maps from vertices to each connected component in the original graph excluding the edges in the DFS-tree
         int component = 0;
         boolean[] visited = new boolean[G.getN()];
 
+        // using a que to make a BFS search from the vertex i
         Queue<Integer> q = new ArrayDeque<>();
 
         for (int i = 0; i < G.getN(); i++) {
