@@ -1,6 +1,7 @@
 package graphs.Nadara;
 
 import graphs.ArrayGraph;
+import graphs.ConnectedResult;
 import graphs.DFSTree;
 import org.junit.jupiter.api.Test;
 
@@ -18,46 +19,40 @@ public class NadaraTest {
     public void lowsMissing () throws Exception {
         File f = new File("src/test/graphs/correctness/nadara/3para.gr");
         ArrayGraph g = ArrayGraph.fromString(new Scanner(f));
-
-        System.out.println(Nadara.Nadara(g));
+        assert(Nadara.Nadara(g) == ConnectedResult.ThreeEdgeConnected);
     }
 
     @Test
     public void lowerCase1() throws Exception {
         File f = new File("src/test/graphs/correctness/nadara/lower.gr");
         ArrayGraph g = ArrayGraph.fromString(new Scanner(f));
-
-        System.out.println(Nadara.Nadara(g));
+        assert(Nadara.Nadara(g) == ConnectedResult.ThreeEdgeConnected);
     }
     @Test
     public void lowerCase2() throws Exception {
         File f = new File("src/test/graphs/correctness/nadara/lower2.gr");
         ArrayGraph g = ArrayGraph.fromString(new Scanner(f));
-
-        System.out.println(Nadara.Nadara(g));
+        assert(Nadara.Nadara(g) == ConnectedResult.ThreeEdgeConnected);
     }
 
     @Test
     public void upperCase1() throws Exception {
         File f = new File("src/test/graphs/correctness/nadara/upper.gr");
         ArrayGraph g = ArrayGraph.fromString(new Scanner(f));
-
-        System.out.println(Nadara.Nadara(g));
+        assert(Nadara.Nadara(g) == ConnectedResult.ThreeEdgeConnected);
     }
     @Test
     public void upperCase2() throws Exception {
         File f = new File("src/test/graphs/correctness/nadara/upperNoMax.gr");
         ArrayGraph g = ArrayGraph.fromString(new Scanner(f));
-
-        System.out.println(Nadara.Nadara(g));
+        assert(Nadara.Nadara(g) == ConnectedResult.ThreeEdgeConnected);
     }
 
     @Test
     public void manyCuts1() throws Exception {
         File f = new File("src/test/graphs/correctness/nadara/minfuncs.gr");
         ArrayGraph g = ArrayGraph.fromString(new Scanner(f));
-
-        System.out.println(Nadara.Nadara(g));
+        assert(Nadara.Nadara(g) == ConnectedResult.ThreeEdgeConnected);
     }
 
     @Test

@@ -3,7 +3,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CurrentGraph {
     private static boolean[] inGraphChains;
@@ -49,37 +50,36 @@ public class CurrentGraph {
     }
 
     @Test
-    public static void invarientChecker(ArrayList<ArrayList<Integer>> cToSonC, int phase){
+    //Tests that invariant always holds.
+    public static boolean invarientChecker(ArrayList<ArrayList<Integer>> cToSonC, int phase){
+        boolean result = true;
         for(int i = 0; i < phase; i++){
             ArrayList<Integer> chainsWithSource = cToSonC.get(i);
             for(Integer chain : chainsWithSource){
-                assertTrue(inGraphChains[chain]);
+                if(inGraphChains[chain]){
+                    result = true;
+                } else {
+                    result = false;
+                }
             }
-
         }
+        return result;
     }
 
     @Test
-    public static void notPartOfGCCheckerLemma6(ArrayList<ArrayList<Integer>> cToSonC, int phase, ChainDecomposition chainDecomposition){
+    //Checks that the chain in phase i isn't a part of the current graph
+    public static boolean notPartOfGCChecker(ArrayList<ArrayList<Integer>> cToSonC, int phase, ChainDecomposition chainDecomposition){
+        boolean result = true;
         ArrayList<Integer> chainsWithSource = cToSonC.get(phase);
         for(Integer intChain : chainsWithSource){
-            assertFalse(inGraphChains[intChain]);
+            if(!inGraphChains[intChain]){
+                result = true;
+            } else {
+                result = false;
+            }
         }
+        return result;
 
     }
 
-    @Test
-    public static void  ancestorCheckLemma6 (Integer intChain, ChainDecomposition chainDecomposition, int phase){
-        ArrayList<Chain> chains = chainDecomposition.chains;
-        Chain cChain = chainDecomposition.chains.get(intChain);
-        Chain ciChain = chainDecomposition.chains.get(phase);
-        Chain parrentChain = chains.get(cChain.getParent());
-        int parrentIntChain = cChain.getParent();
-        if (inGraphChains[parrentIntChain]){
-            System.out.println(chains.get(chainDecomposition.verticesSBelong[parrentChain.vertices.get(0)]).vertices.toString());
-            assertEquals(chains.get(chainDecomposition.verticesSBelong[parrentChain.vertices.get(0)]), ciChain);
-        } else {
-            ancestorCheckLemma6(parrentIntChain, chainDecomposition, phase);
-        }
-    }
 }

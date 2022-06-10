@@ -33,6 +33,7 @@ public class Schmidt {
     }
 
     @Test
+    //Checks that the preorder is correct
     static void checkCorrectPreOrder (DFSTree T){
         assertEquals(T.getParent(0), -1);
         for (int i = 1; i < T.size(); i++) {
@@ -41,6 +42,7 @@ public class Schmidt {
     }
 
     @Test
+    //Makes sure that the amount of chains found is correct.
     static void checkAmountOfChains(Graph G, ChainDecomposition CD){
         int n = G.getN();
         int m = G.getM();
@@ -48,6 +50,7 @@ public class Schmidt {
     }
 
     @Test
+    //Makes sure that when more that exists more then two cycles.
     static void correctAmountCycle(ChainDecomposition CD){
         int amountCycle = 0;
         for (Chain C : CD.getTestChains()){

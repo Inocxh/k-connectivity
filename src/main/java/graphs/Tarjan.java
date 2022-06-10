@@ -2,8 +2,6 @@ package graphs;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -53,17 +51,29 @@ public class Tarjan {
 
     //Returns whether the numbering invariant holds for all vertices
     @Test
-    static void upholdsOrderingInvariant(DFSTree T) {
+    static boolean upholdsOrderingInvariant(DFSTree T) {
+        boolean result;
         //Check that the parent of the root is undefined
-        assertEquals(-1, T.getParent(0));
+        if(T.getParent(0) == -1){
+            result = true;
+        } else {
+            return false;
+        }
+
         //p(v) > v for all v in G
         for (int i = 1; i < T.size(); i++) {
-            assertTrue(T.orderOf(T.getParent(i)) > T.orderOf(i));
+            if (T.orderOf(T.getParent(i)) > T.orderOf(i)){
+                result = true;
+            } else {
+                result = false;
+                break;
+            }
         }
+        return result;
     }
     // Verifies Lemma 2.1.2, that is all back-edges are between ancestors and descendants
     @Test
-    static void isDFSTree(DFSTree T,Graph G) {
+    static boolean isDFSTree(DFSTree T, Graph G) {
         //For all vertices
         boolean result = true;
         for (int i = 0; i < G.getN(); i++) {
@@ -81,6 +91,6 @@ public class Tarjan {
             }
         }
         // If the outer loop successfully runs we have found parent-paths to all up edges, thus the property holds.
-        assertTrue(result);
+        return result;
     }
 }

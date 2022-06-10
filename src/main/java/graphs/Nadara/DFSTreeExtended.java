@@ -1,10 +1,13 @@
 package graphs.Nadara;
 
 import graphs.Graph;
+import graphs.Intervals;
+import org.junit.jupiter.api.Test;
 import util.StackElement;
 import util.Stack;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
@@ -162,6 +165,9 @@ public class DFSTreeExtended {
         }
         System.out.println();
     }
+
+
+
 }
 
 

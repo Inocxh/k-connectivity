@@ -2,7 +2,6 @@ package graphs;
 
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,7 +21,7 @@ public class Mehlhorn {
 
         computeParentChainsAndSource(chainDecomposition);
         //CORRECTNESS TEST
-        chainDecomposition.chainCheckLemma2(chainDecomposition, dfsTree);
+        assert chainDecomposition.chainCheckLemma2(chainDecomposition, dfsTree);
 
         CurrentGraph currentGraph = new CurrentGraph(G.getN(), chainDecomposition);
 
@@ -30,7 +29,7 @@ public class Mehlhorn {
         for (int i=0; i < chainDecomposition.chains.size(); i++) {
             //CORRECTNESS TEST
             if(i > 1){
-                currentGraph.notPartOfGCCheckerLemma6(cToSonC, i, chainDecomposition);
+                assert currentGraph.notPartOfGCChecker(cToSonC, i, chainDecomposition);
             }
            //compute segments
             ArrayList<SegmentOwn> segments = computeSegments(currentGraph, i,  chainDecomposition);
@@ -43,7 +42,7 @@ public class Mehlhorn {
                     interlacing.add(segment);
                 } else {
                     nested.add(segment);
-                    nestedCheckLemma8(segment, chainDecomposition, dfsTree);
+                    assert nestedCheckLemma8(segment, chainDecomposition, dfsTree);
                 }
             }
             // add all chains in a segment, where the minimal chain is interlacing
@@ -57,7 +56,7 @@ public class Mehlhorn {
                 return ConnectedResult.NotThreeEdgeConnected;
             }
             //CORRECTNESS TEST
-            CurrentGraph.invarientChecker(cToSonC, i);
+            assert CurrentGraph.invarientChecker(cToSonC, i);
         }
         return ConnectedResult.ThreeEdgeConnected;
     }
@@ -307,7 +306,8 @@ public class Mehlhorn {
     }
 
     @Test
-    public static void nestedCheckLemma8(SegmentOwn segment, ChainDecomposition chainDecomposition, DFSTree dfsTree){
+    //Checks lemma 8 found in the article certifying 3-edge-connectivity by Kurt Mehlhorn
+    public static boolean nestedCheckLemma8(SegmentOwn segment, ChainDecomposition chainDecomposition, DFSTree dfsTree){
         ArrayList<Chain> chains = chainDecomposition.chains;
         ArrayList<Integer> segmentChain = segment.getChains();
         Chain minimalChain = segment.getMinimalChain();
@@ -324,13 +324,14 @@ public class Mehlhorn {
                 for(Integer Dchain : segmentChain){
                     int sourceDChain = chains.get(Dchain).vertices.get(0);
                     //Finds the tree path between the attachment points.
-                    int from = dfsTree.dfsToVertex(chainVertices.get(0));
-                    int to = dfsTree.dfsToVertex(chainVertices.get(chainVertices.size() - 1));
+                    int from = dfsTree.orderOf(chainVertices.get(0));
+                    int to = dfsTree.orderOf(chainVertices.get(chainVertices.size() - 1));
                     if (from > to){
                         treePath  = subArray(dfsTree.dfsOrder(), to, from);
                     } else {
                         treePath  = subArray(dfsTree.dfsOrder(), from, to);
                     }
+                    //Check if source of the D chain is on the treepath.
                     if(Arrays.stream(treePath).anyMatch(x -> x == sourceDChain)){
                         result = true;
                     } else {
@@ -341,7 +342,7 @@ public class Mehlhorn {
                 break;
             }
         }
-        assertTrue(result);
+        return result;
     }
 
 

@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
         HashSet<Integer> visited = new HashSet<>();
 
-        initiateVars();
+        assert initiateVars();
         // For all vertices in increasing order
         for (int vertex : T.dfsOrder()) {
             visited.add(vertex);
@@ -62,11 +62,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
                 if (mehlhorn) {
                     chains.add(new Chain(chain));
                 }
-                addChain(chain);
-                checkBackedgeStart(T, chain);
+                assert checkBackedgeStart(T, chain);
             }
         }
-        checkVisitedVertices(T, visited);
+        assert checkVisitedVertices(T, visited);
     }
 
     public int getCEdges(){
@@ -77,74 +76,77 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
     }
     public int getNumberOfChains() { return chains.size(); }
 
-    @BeforeEach
-    public static void initiateVars(){
-            testChains = new ArrayList<>();
+    //Helper function for correctness test
+    public static boolean initiateVars(){
+        boolean result = true;
+        testChains = new ArrayList<>();
+        return result;
         }
 
     @Test
-    public static void checkVisitedVertices (DFSTree T, HashSet<Integer> visited) {
+    //Makes sure that every vertex is visited
+    public static boolean checkVisitedVertices (DFSTree T, HashSet<Integer> visited) {
         int n  = T.getVertices().length;
-        assertEquals(visited.size(), n);
+        return visited.size() == n;
     }
 
     @Test
-    public static void checkBackedgeStart (DFSTree T, ArrayList<Integer> chain){
+    //Makes sure every chain starts with a backedge
+    public static boolean checkBackedgeStart (DFSTree T, ArrayList<Integer> chain){
+        addTestChain(chain);
         Integer v0 = chain.get(0);
-        assertTrue(T.getBackEdges(v0).contains(chain.get(1)));
+        return T.getBackEdges(v0).contains(chain.get(1));
     }
-
-    @Test
-    public static void addChain(ArrayList<Integer> chain){
+    //Helper function for correctness test
+    public static void addTestChain(ArrayList<Integer> chain){
         testChains.add(new Chain(chain));
     }
 
-    @Test
+    //Helper function for correctness test
     public ArrayList<Chain> getTestChains(){
         return testChains;
     }
 
     @Test
-    public static void chainCheckLemma2 (ChainDecomposition chainDecomposition, DFSTree dfsTree){
+    //Checks the 6 parts of lemma 2 found in the article certifying 3-edge-connectivity by Kurt Mehlhorn
+    public static boolean chainCheckLemma2 (ChainDecomposition chainDecomposition, DFSTree dfsTree){
         ArrayList<Chain> chains = chainDecomposition.chains;
-        boolean firstCorrect = false;
+        boolean result1 = false, result2 = false, result3 = false, result4 = false;
         for(Chain chain : chains){
             int sC = dfsTree.orderOf(chain.vertices.get(0));
             int tC = dfsTree.orderOf(chain.getTerminal());
             //Checks 1 of lemma 2
-            assertTrue(sC <= tC);
+            result1 = sC <= tC;
             //Checks 2 and 3 of lemma 2
             if (chains.indexOf(chain) >= 1) {
                 Chain parentChain = chains.get(chain.getParent());
                 int sPC = dfsTree.orderOf(parentChain.vertices.get(0));
                 int tPC = dfsTree.orderOf(parentChain.getTerminal());
                 if (sPC <= sC && tC != dfsTree.dfsToVertex(0) && tPC < tC){
-                    firstCorrect = true;
-                } else firstCorrect = sPC <= sC && tC == dfsTree.dfsToVertex(0) && tPC == tC;
-                assertTrue(firstCorrect);
+                    result2 = true;
+                } else result2 = sPC <= sC && tC == dfsTree.dfsToVertex(0) && tPC == tC;
             }
-            //Checks 4, 5 and 6 for lemma 2
+            //Checks 4, 5 for lemma 2
             for (int v = 0; v < dfsTree.size() - 1; v++){
                 for (int u = 0; u < dfsTree.size() - 1; u++){
-                    // TODO: Check om forloop ikke kan fjernes ved at fjerne equals
                     for (Chain dChain : chains){
                         if (u < v && chains.get(chainDecomposition.verticesSBelong[u]).equals(chain) && chains.get(chainDecomposition.verticesSBelong[v]).equals(dChain)){
-                            firstCorrect = chains.indexOf(chain) <= chains.indexOf(dChain);
+                            result3 = chains.indexOf(chain) <= chains.indexOf(dChain);
                         }
                         if (u < dChain.getTerminal() && chains.get(chainDecomposition.verticesSBelong[u]).equals(chain)){
-                            firstCorrect = chains.indexOf(chain) <= chains.indexOf(dChain);
+                            result3 = chains.indexOf(chain) <= chains.indexOf(dChain);
                         }
 
                     }
                 }
             }
-            assertTrue(firstCorrect);
+            //Checks 6 for lemma 2
             if (chains.indexOf(chain) >= 1){
                 Chain chain2 = chains.get(chainDecomposition.verticesSBelong[sC]);
-                firstCorrect = chains.indexOf(chain) > chains.indexOf(chain2);
+                result4 = chains.indexOf(chain) > chains.indexOf(chain2);
             }
         }
-        assertTrue(firstCorrect);
+        return (result1 && result2 && result3 && result4);
 
     }
 
