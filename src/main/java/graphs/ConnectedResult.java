@@ -9,4 +9,5 @@ public enum ConnectedResult {
     NotThreeEdgeConnected,
     ThreeEdgeConnected,
     FourEdgeConnected,
+    NotFourEdgeConnected,
 }

@@ -136,6 +136,25 @@ public class EdgeLabelledGraph implements Graph{
         }
         return "[-1,-1]";
     }
+
+    public Pair findOriginalHead(int v, int u){
+        if (takenNames == null) {
+            takenNames = new HashMap<>();
+        }
+        int n = takenNames.getOrDefault(new Pair(u,v),0);
+        takenNames.put(new Pair(u,v),n+1);
+        for (int i = 0; i < G.getNeighbours(v).size(); i++) {
+            if (G.getNeighbours(v).get(i) == u) {
+                if (n != 0) {
+                    n--;
+                    continue;
+                }
+                return names.get(v).get(i);
+            }
+        }
+        return null;
+    }
+
     public void resetTakenNames() {
         takenNames = new HashMap<>();
     }

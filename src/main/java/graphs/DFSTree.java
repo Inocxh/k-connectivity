@@ -9,7 +9,7 @@ import java.util.List;
 
 public class DFSTree {
     private final int[] ordering2vertex;
-    private final int[] vertex2ordering;
+    private static int[] vertex2ordering;
     private final Vertex[] vertices;
     private final int size;
 
@@ -101,6 +101,7 @@ public class DFSTree {
         return vertices[v].parent;
     }
 
+    public Vertex[] getVertices(){return vertices;}
     /// Returns a list of all vertices in their DFS order
     public int[] dfsOrder() {
         return ordering2vertex;
@@ -110,12 +111,13 @@ public class DFSTree {
         return ordering2vertex[i];
     }
 
-    public int orderOf(int v) {
+    public static int orderOf(int v) {
         return vertex2ordering[v];
     }
     public int size() {
         return size;
     }
+    public int[] getPreOrder(){return vertex2ordering;}
     //Remnants of DFSTreeExtended methods
     public boolean isAncestor(int u, int v) {
         return orderOf(u) <= orderOf(v);
@@ -130,6 +132,23 @@ public class DFSTree {
         return dfsOrder();
     }
 
+    public ArrayList<Integer> subtree(int vertex){
+        ArrayList<Integer> subtree = new ArrayList<>();
+        ArrayList<Integer> vertices = new ArrayList<Integer>(List.of(vertex));
+        ArrayList<Integer> children = new ArrayList<>();
+        do {
+            for(int v : vertices){
+                if (!subtree.contains(v)){
+                    subtree.add(v);
+                }
+                children = getChildren(v);
+                subtree.addAll(children);
+            }
+            vertices = children;
+        } while(!vertices.isEmpty());
+
+        return subtree;
+    }
 
 }
 

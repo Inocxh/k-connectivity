@@ -1,8 +1,13 @@
 package graphs;
+import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class CurrentGraph {
-    private boolean[] inGraphChains;
+    private static boolean[] inGraphChains;
     private int[] degreeOfVertices;
     private ArrayList<Chain> chains;
     private SegmentOwn[] chainsToSegments;
@@ -43,4 +48,38 @@ public class CurrentGraph {
     public SegmentOwn getSegmentFromC(int chain) {
         return chainsToSegments[chain];
     }
+
+    @Test
+    //Tests that invariant always holds.
+    public static boolean invarientChecker(ArrayList<ArrayList<Integer>> cToSonC, int phase){
+        boolean result = true;
+        for(int i = 0; i < phase; i++){
+            ArrayList<Integer> chainsWithSource = cToSonC.get(i);
+            for(Integer chain : chainsWithSource){
+                if(inGraphChains[chain]){
+                    result = true;
+                } else {
+                    result = false;
+                }
+            }
+        }
+        return result;
+    }
+
+    @Test
+    //Checks that the chain in phase i isn't a part of the current graph
+    public static boolean notPartOfGCChecker(ArrayList<ArrayList<Integer>> cToSonC, int phase, ChainDecomposition chainDecomposition){
+        boolean result = true;
+        ArrayList<Integer> chainsWithSource = cToSonC.get(phase);
+        for(Integer intChain : chainsWithSource){
+            if(!inGraphChains[intChain]){
+                result = true;
+            } else {
+                result = false;
+            }
+        }
+        return result;
+
+    }
+
 }
