@@ -2,7 +2,7 @@ package Benchmarks.Runners.Tarjan;
 
 import Benchmarks.BenchmarkRunner;
 import graphs.ArrayGraph;
-import graphs.Tarjan;
+import graphs.TwoEdgeHighpoint.TwoEdgeHighpoint;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
@@ -27,7 +27,7 @@ public class GridTestTarjan {
 
     @Benchmark
     public void tarjanGrid() {
-        Tarjan.is1EdgeConnected(g);
+        TwoEdgeHighpoint.is1EdgeConnected(g);
     }
 
     public static void main(String[] args) throws RunnerException {

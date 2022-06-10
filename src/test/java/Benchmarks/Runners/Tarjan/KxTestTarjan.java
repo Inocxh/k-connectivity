@@ -1,7 +1,7 @@
 package Benchmarks.Runners.Tarjan;
 
 import Benchmarks.BenchmarkRunner;
-import graphs.Tarjan;
+import graphs.TwoEdgeHighpoint.TwoEdgeHighpoint;
 import org.openjdk.jmh.annotations.*;
 import graphs.ArrayGraph;
 import org.openjdk.jmh.runner.Runner;
@@ -27,7 +27,7 @@ public class KxTestTarjan {
 
     @Benchmark
     public void tarjanKx() {
-        Tarjan.is1EdgeConnected(g);
+        TwoEdgeHighpoint.is1EdgeConnected(g);
     }
 
     public static void main(String[] args) throws RunnerException {

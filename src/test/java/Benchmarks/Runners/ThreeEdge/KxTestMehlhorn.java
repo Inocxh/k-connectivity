@@ -1,8 +1,8 @@
-package Benchmarks.Runners.Schmidt;
+package Benchmarks.Runners.ThreeEdge;
 
 import Benchmarks.BenchmarkRunner;
 import graphs.ArrayGraph;
-import graphs.TwoEdgeChains.TwoEdgeChains;
+import graphs.ThreeEdge.ThreeEdge;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
@@ -12,30 +12,30 @@ import java.io.File;
 import java.util.Scanner;
 
 @State(Scope.Benchmark)
-public class K5BiTreeTestSchmidt {
-    @Param({"2","3","4","5","6","7","8","9","10","11"})
+public class KxTestMehlhorn {
+    @Param({"4","44","84","124","164","204", "244", "284","324","364"})
     public int x;
 
     public ArrayGraph g;
 
     @Setup(Level.Trial)
     public void setup() throws Exception {
-        String path = "src/test/graphs/generated/TarjanAndSchmidt/k5BiTree/" + x + ".gr";
+        String path = "src/test/graphs/generated/Mehlhorn/kx-kx/" + x + ".gr";
         File f = new File(path);
         g = ArrayGraph.fromString(new Scanner(f));
     }
 
     @Benchmark
-    public void SchmidtBiTree() {
-        TwoEdgeChains.is2Connected(g);
+    public void MehlhornKx() {
+        ThreeEdge.is3EdgeConnected(g);
     }
 
     public static void main(String[] args) throws RunnerException {
         Options o = BenchmarkRunner
                 .getOptions()
-                .include(K5BiTreeTestSchmidt.class.getSimpleName())
-                .result("./src/test/java/Benchmarks/Results/Schmidt/SchmidtK5BiTree.csv")
+                .include(KxTestMehlhorn.class.getSimpleName())
+                .result("./src/test/java/Benchmarks/Results/Mehlhorn/MehlhornKx.csv")
                 .build();
         new Runner(o).run();
-    }
+        }
 }

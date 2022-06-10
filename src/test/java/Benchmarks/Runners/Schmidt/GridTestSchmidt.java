@@ -2,8 +2,7 @@ package Benchmarks.Runners.Schmidt;
 
 import Benchmarks.BenchmarkRunner;
 import graphs.ArrayGraph;
-import graphs.Schmidt;
-import graphs.Tarjan;
+import graphs.TwoEdgeChains.TwoEdgeChains;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
@@ -28,7 +27,7 @@ public class GridTestSchmidt {
 
     @Benchmark
     public void SchmidtGrid() {
-        Schmidt.is2Connected(g);
+        TwoEdgeChains.is2Connected(g);
     }
 
     public static void main(String[] args) throws RunnerException {

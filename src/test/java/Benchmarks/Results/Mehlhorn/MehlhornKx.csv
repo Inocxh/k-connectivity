@@ -1,11 +1,11 @@
 "Benchmark","Mode","Threads","Samples","Score","Score Error (99.9%)","Unit","Param: x"
-"Benchmarks.Runners.Mehlhorn.KxTestMehlhorn.MehlhornKx","avgt",1,20,0.003499,0.000148,"ms/op",4
-"Benchmarks.Runners.Mehlhorn.KxTestMehlhorn.MehlhornKx","avgt",1,20,0.340236,0.004748,"ms/op",44
-"Benchmarks.Runners.Mehlhorn.KxTestMehlhorn.MehlhornKx","avgt",1,20,1.265050,0.067838,"ms/op",84
-"Benchmarks.Runners.Mehlhorn.KxTestMehlhorn.MehlhornKx","avgt",1,20,2.767110,0.064018,"ms/op",124
-"Benchmarks.Runners.Mehlhorn.KxTestMehlhorn.MehlhornKx","avgt",1,20,5.004548,0.380180,"ms/op",164
-"Benchmarks.Runners.Mehlhorn.KxTestMehlhorn.MehlhornKx","avgt",1,20,8.067568,0.133294,"ms/op",204
-"Benchmarks.Runners.Mehlhorn.KxTestMehlhorn.MehlhornKx","avgt",1,20,11.912991,0.990737,"ms/op",244
-"Benchmarks.Runners.Mehlhorn.KxTestMehlhorn.MehlhornKx","avgt",1,20,16.777306,1.374383,"ms/op",284
-"Benchmarks.Runners.Mehlhorn.KxTestMehlhorn.MehlhornKx","avgt",1,20,23.975421,4.087166,"ms/op",324
-"Benchmarks.Runners.Mehlhorn.KxTestMehlhorn.MehlhornKx","avgt",1,20,30.414278,3.666316,"ms/op",364
+"Benchmarks.Runners.ThreeEdge.KxTestMehlhorn.MehlhornKx","avgt",1,20,0.003499,0.000148,"ms/op",4
+"Benchmarks.Runners.ThreeEdge.KxTestMehlhorn.MehlhornKx","avgt",1,20,0.340236,0.004748,"ms/op",44
+"Benchmarks.Runners.ThreeEdge.KxTestMehlhorn.MehlhornKx","avgt",1,20,1.265050,0.067838,"ms/op",84
+"Benchmarks.Runners.ThreeEdge.KxTestMehlhorn.MehlhornKx","avgt",1,20,2.767110,0.064018,"ms/op",124
+"Benchmarks.Runners.ThreeEdge.KxTestMehlhorn.MehlhornKx","avgt",1,20,5.004548,0.380180,"ms/op",164
+"Benchmarks.Runners.ThreeEdge.KxTestMehlhorn.MehlhornKx","avgt",1,20,8.067568,0.133294,"ms/op",204
+"Benchmarks.Runners.ThreeEdge.KxTestMehlhorn.MehlhornKx","avgt",1,20,11.912991,0.990737,"ms/op",244
+"Benchmarks.Runners.ThreeEdge.KxTestMehlhorn.MehlhornKx","avgt",1,20,16.777306,1.374383,"ms/op",284
+"Benchmarks.Runners.ThreeEdge.KxTestMehlhorn.MehlhornKx","avgt",1,20,23.975421,4.087166,"ms/op",324
+"Benchmarks.Runners.ThreeEdge.KxTestMehlhorn.MehlhornKx","avgt",1,20,30.414278,3.666316,"ms/op",364
