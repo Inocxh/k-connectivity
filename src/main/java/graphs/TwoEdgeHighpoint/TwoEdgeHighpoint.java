@@ -12,8 +12,9 @@ public class TwoEdgeHighpoint {
         DFSTree T = new DFSTree(G, 0, postOrder);
 
         // TEST ASSERTIONS
-        assert upholdsOrderingInvariant(T,G);
-        assert isDFSTree(T,G);
+        isDFSTree(T, G);
+        upholdsOrderingInvariant(T);
+
 
         int[] H = new int[G.getN()];
 
@@ -47,18 +48,32 @@ public class TwoEdgeHighpoint {
     }
 
     //Returns whether the numbering invariant holds for all vertices
-    static boolean upholdsOrderingInvariant(DFSTree T,Graph G) {
+    @Test
+    static boolean upholdsOrderingInvariant(DFSTree T) {
+        boolean result;
         //Check that the parent of the root is undefined
-        assert T.getParent(0) == -1;
+        if(T.getParent(0) == -1){
+            result = true;
+        } else {
+            return false;
+        }
+
         //p(v) > v for all v in G
         for (int i = 1; i < T.size(); i++) {
-            assert T.orderOf(T.getParent(i)) > T.orderOf(i);
+            if (T.orderOf(T.getParent(i)) > T.orderOf(i)){
+                result = true;
+            } else {
+                result = false;
+                break;
+            }
         }
-        return true;
+        return result;
     }
     // Verifies Lemma 2.1.2, that is all back-edges are between ancestors and descendants
-    static boolean isDFSTree(DFSTree T,Graph G) {
+    @Test
+    static boolean isDFSTree(DFSTree T, Graph G) {
         //For all vertices
+        boolean result = true;
         for (int i = 0; i < G.getN(); i++) {
         // Take all up-edges
             for (int ancestor : T.getUpEdges(i)) {
@@ -66,7 +81,7 @@ public class TwoEdgeHighpoint {
         // While we haven't reached the target yet and we aren't on the root
                 while (T.getParent(current) != ancestor) {
                     if (T.getParent(current) == -1) {
-                        return false;
+                        result = false;
                     }
         // Go through the parent
                     current = T.getParent(current);
@@ -74,6 +89,6 @@ public class TwoEdgeHighpoint {
             }
         }
         // If the outer loop successfully runs we have found parent-paths to all up edges, thus the property holds.
-        return true;
+        return result;
     }
 }

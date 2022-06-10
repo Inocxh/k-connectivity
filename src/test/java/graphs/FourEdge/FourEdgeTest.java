@@ -1,4 +1,4 @@
-package graphs.FourEdge;
+package graphs.Nadara;
 
 import graphs.ArrayGraph;
 import graphs.TwoEdgeHighpoint.DFSTree;
@@ -8,14 +8,14 @@ import java.io.File;
 import java.util.Scanner;
 
 
-public class FourEdgeTest {
+public class NadaraTest {
 
     @Test
     public void lowsMissing () throws Exception {
         File f = new File("src/test/graphs/correctness/nadara/3para.gr");
         ArrayGraph g = ArrayGraph.fromString(new Scanner(f));
 
-        System.out.println(FourEdge.is4EdgeConnected(g));
+        assert(graphs.Nadara.FourEdge.is4EdgeConnected(g) == ConnectedResult.ThreeEdgeConnected);
     }
 
     @Test
@@ -23,37 +23,32 @@ public class FourEdgeTest {
         File f = new File("src/test/graphs/correctness/nadara/lower.gr");
         ArrayGraph g = ArrayGraph.fromString(new Scanner(f));
 
-        System.out.println(FourEdge.is4EdgeConnected(g));
     }
     @Test
     public void lowerCase2() throws Exception {
         File f = new File("src/test/graphs/correctness/nadara/lower2.gr");
         ArrayGraph g = ArrayGraph.fromString(new Scanner(f));
-
-        System.out.println(FourEdge.is4EdgeConnected(g));
+        assert(Nadara.is4EdgeConnected(g) == ConnectedResult.ThreeEdgeConnected);
     }
 
     @Test
     public void upperCase1() throws Exception {
         File f = new File("src/test/graphs/correctness/nadara/upper.gr");
         ArrayGraph g = ArrayGraph.fromString(new Scanner(f));
-
-        System.out.println(FourEdge.is4EdgeConnected(g));
+        assert(Nadara.is4EdgeConnected(g) == ConnectedResult.ThreeEdgeConnected);
     }
     @Test
     public void upperCase2() throws Exception {
         File f = new File("src/test/graphs/correctness/nadara/upperNoMax.gr");
         ArrayGraph g = ArrayGraph.fromString(new Scanner(f));
-
-        System.out.println(FourEdge.is4EdgeConnected(g));
+        assert(Nadara.is4EdgeConnected(g) == ConnectedResult.ThreeEdgeConnected);
     }
 
     @Test
     public void manyCuts1() throws Exception {
         File f = new File("src/test/graphs/correctness/nadara/minfuncs.gr");
         ArrayGraph g = ArrayGraph.fromString(new Scanner(f));
-
-        System.out.println(FourEdge.is4EdgeConnected(g));
+        assert(Nadara.is4EdgeConnected(g) == ConnectedResult.ThreeEdgeConnected);
     }
 
     @Test

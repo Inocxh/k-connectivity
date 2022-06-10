@@ -6,7 +6,7 @@ import graphs.TwoEdgeHighpoint.DFSTree;
 import java.util.ArrayList;
 
 //Runs a BFS from root during construction
-public class DepthOracle {
+public class    DepthOracle {
     ArrayList<Integer> queue;
     int[] depths;
 
