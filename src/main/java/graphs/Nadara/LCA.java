@@ -18,6 +18,8 @@ public class LCA {
     }
     //Returns the lowest common ancestor of x and y
     // O( |height(x) - height(y)| )
+
+    // this function is not used, we use the minMax class to compute the LCA.
     public int lca(int x, int y) {
         //Set of visited
         HashSet<Integer> visited = new HashSet<>();
