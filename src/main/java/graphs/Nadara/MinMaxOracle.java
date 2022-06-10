@@ -2,8 +2,17 @@ package graphs.Nadara;
 
 import graphs.DFSTree;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+/*
+    This is where the magic happens.
+    Here every static value is computed at the same time in order to achieve linear run time.
+    maxUps, maxDns, minDns and lows are all computed using the WeightedPaths datastructure.
+    The different deepestDnCuts are computed using off-line LCA.
+
+ */
 
 public class MinMaxOracle {
     WeightedPaths lows;
@@ -105,12 +114,13 @@ public class MinMaxOracle {
         minDns = new WeightedPaths(T,minDnPaths,minDnWeights,2,T.size());
     }
     void computeDDCs(DFSTree T) {
+        //First generate all queries
         ArrayList<ArrayList<Query>> queries = new ArrayList<>(T.size());
         boolean[] colors = new boolean[T.size()];
         for (int i = 0; i < T.size(); i++) {
             queries.add(new ArrayList<Query>());
         }
-        //Start at 1 as root not involved
+        //Start at 1 as root doesn't have a parent
         for (int v = 1; v < T.size(); v++) {
             Query DDC = new Query(v,minDn1(v).get(0),maxDn1(v).get(0),DdcCase.Standard);
             Query DDCNoMax = new Query(v,minDn1(v).get(0),maxDn2(v).get(0),DdcCase.NoMax);
@@ -120,6 +130,7 @@ public class MinMaxOracle {
             addQuery(queries,DDCNoMin);
         }
         SetUnion F = new SetUnion(T.size());
+        //Now use LCA algorithm to answer the queries
         for (int i = T.dfsPreOrder().length-1; i > 0; i--) {
             int v = T.dfsPreOrder()[i];
             int order = T.getPre(v);
@@ -144,6 +155,7 @@ public class MinMaxOracle {
                     }
                 }
             }
+            F.union(order,T.getPre(T.getParent(v)));
         }
     }
 

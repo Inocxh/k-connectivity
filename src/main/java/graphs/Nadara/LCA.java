@@ -5,6 +5,12 @@ import graphs.DFSTree;
 import java.util.HashSet;
 
 //Naive implementation of LCA problem for a tree T
+/*
+DEAD CODE!
+
+Has been replaced by computeDDC method in MinMaxOracle.
+The class was previously a placeholder slow placeholder for a linear time LCA algorithm
+ */
 public class LCA {
     private final DFSTree T;
     public LCA(DFSTree T) {

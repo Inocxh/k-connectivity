@@ -2,6 +2,10 @@ package graphs.Nadara;
 
 import java.util.Objects;
 
+/*
+    A simple datastructure to hold to pairs, only used in EdgeLabelledGraph.
+    If we were smarter we'd have used it to represent paths, but it was added late in development and no one wanted to grandfather it in.
+ */
 public class Pair{
     public int fst;
     public int sec;

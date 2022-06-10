@@ -4,6 +4,10 @@ import graphs.DFSTree;
 
 import java.util.ArrayList;
 
+/*
+    Implementation of the MPF algorithm as described in Nadara et. al. and the report.
+    A weighted paths object returns in O(1) time the maximum kth path going through v - p(v)
+ */
 public class WeightedPaths {
     private final ArrayList<Integer> pathOrder;
     //index v denotes edge v p(v)
@@ -70,10 +74,11 @@ public class WeightedPaths {
         u = T.pre2vertex(su.lowest(T.getPre(u)));
         while (!T.isAncestor(u, v)){
             int edge = u;
+            // If no arraylist exist, create it. TODO: remove this, it doesn't impact performance.
             if (edgeSets.get(edge) == null){
                 edgeSets.set(edge, new ArrayList<>());
             }
-            edgeSets.get(edge).add(i); // Todo: add if doesnt exists.
+            edgeSets.get(edge).add(i);
             if (edgeSets.get(edge).size() == k){
                 su.union(T.getPre(u), T.getPre(T.getParent(u)));
             }
