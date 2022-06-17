@@ -1,0 +1,11 @@
+"Benchmark","Mode","Threads","Samples","Score","Score Error (99.9%)","Unit","Param: x"
+"Benchmarks.Runners.Nadara.KxTestNadara.tarjanKx","avgt",1,20,0.000814,0.000003,"ms/op",4
+"Benchmarks.Runners.Nadara.KxTestNadara.tarjanKx","avgt",1,20,0.065259,0.000241,"ms/op",44
+"Benchmarks.Runners.Nadara.KxTestNadara.tarjanKx","avgt",1,20,0.258057,0.001304,"ms/op",84
+"Benchmarks.Runners.Nadara.KxTestNadara.tarjanKx","avgt",1,20,0.596020,0.008688,"ms/op",124
+"Benchmarks.Runners.Nadara.KxTestNadara.tarjanKx","avgt",1,20,1.101569,0.006943,"ms/op",164
+"Benchmarks.Runners.Nadara.KxTestNadara.tarjanKx","avgt",1,20,1.884509,0.046651,"ms/op",204
+"Benchmarks.Runners.Nadara.KxTestNadara.tarjanKx","avgt",1,20,2.715024,0.027607,"ms/op",244
+"Benchmarks.Runners.Nadara.KxTestNadara.tarjanKx","avgt",1,20,3.874411,0.028750,"ms/op",284
+"Benchmarks.Runners.Nadara.KxTestNadara.tarjanKx","avgt",1,20,5.084309,0.135111,"ms/op",324
+"Benchmarks.Runners.Nadara.KxTestNadara.tarjanKx","avgt",1,20,6.896364,0.181980,"ms/op",364

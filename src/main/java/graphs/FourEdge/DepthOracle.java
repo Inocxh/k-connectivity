@@ -17,8 +17,8 @@ public class    DepthOracle {
         depths = new int[T.size()];
         depths[root] = 0;
         int currentIdx = 0;
-        //While the queue isn't empty, take the children of the current and add them with depth +1 and continue with next in line
-        //As we have a tree we don't need a visited set.
+        // While the queue isn't empty, take the children of the current and add them with depth +1 and continue with next in line
+        // As we have a tree we don't need a visited set.
         while (currentIdx < queue.size()) {
             int current = queue.get(currentIdx);
             for (int child : T.getChildren(current)) {

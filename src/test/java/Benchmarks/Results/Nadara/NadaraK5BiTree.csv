@@ -1,0 +1,11 @@
+"Benchmark","Mode","Threads","Samples","Score","Score Error (99.9%)","Unit","Param: x"
+"Benchmarks.Runners.Nadara.K5BiTreeTestNadara.NadaraBiTree","avgt",1,20,0.002133,0.000015,"ms/op",2
+"Benchmarks.Runners.Nadara.K5BiTreeTestNadara.NadaraBiTree","avgt",1,20,0.004796,0.000043,"ms/op",3
+"Benchmarks.Runners.Nadara.K5BiTreeTestNadara.NadaraBiTree","avgt",1,20,0.010918,0.000088,"ms/op",4
+"Benchmarks.Runners.Nadara.K5BiTreeTestNadara.NadaraBiTree","avgt",1,20,0.022450,0.000330,"ms/op",5
+"Benchmarks.Runners.Nadara.K5BiTreeTestNadara.NadaraBiTree","avgt",1,20,0.050895,0.001535,"ms/op",6
+"Benchmarks.Runners.Nadara.K5BiTreeTestNadara.NadaraBiTree","avgt",1,20,0.106197,0.000767,"ms/op",7
+"Benchmarks.Runners.Nadara.K5BiTreeTestNadara.NadaraBiTree","avgt",1,20,0.201074,0.001706,"ms/op",8
+"Benchmarks.Runners.Nadara.K5BiTreeTestNadara.NadaraBiTree","avgt",1,20,0.489603,0.038755,"ms/op",9
+"Benchmarks.Runners.Nadara.K5BiTreeTestNadara.NadaraBiTree","avgt",1,20,1.076532,0.066675,"ms/op",10
+"Benchmarks.Runners.Nadara.K5BiTreeTestNadara.NadaraBiTree","avgt",1,20,2.246032,0.102600,"ms/op",11

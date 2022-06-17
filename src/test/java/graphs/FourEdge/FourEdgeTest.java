@@ -14,15 +14,14 @@ public class NadaraTest {
     public void lowsMissing () throws Exception {
         File f = new File("src/test/graphs/correctness/nadara/3para.gr");
         ArrayGraph g = ArrayGraph.fromString(new Scanner(f));
-
-        assert(graphs.Nadara.FourEdge.is4EdgeConnected(g) == ConnectedResult.ThreeEdgeConnected);
+        assert(Nadara.is4EdgeConnected(g) == ConnectedResult.ThreeEdgeConnected);
     }
 
     @Test
     public void lowerCase1() throws Exception {
         File f = new File("src/test/graphs/correctness/nadara/lower.gr");
         ArrayGraph g = ArrayGraph.fromString(new Scanner(f));
-
+        assert(Nadara.is4EdgeConnected(g) == ConnectedResult.ThreeEdgeConnected);
     }
     @Test
     public void lowerCase2() throws Exception {
@@ -69,5 +68,6 @@ public class NadaraTest {
             }
         }
     }
+
 
 }

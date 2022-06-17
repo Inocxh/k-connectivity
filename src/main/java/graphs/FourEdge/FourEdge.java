@@ -1,6 +1,7 @@
-package graphs.Nadara;
+package graphs.FourEdge;
 
 import graphs.*;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,6 +46,8 @@ public class FourEdge {
                 continue;
             }
             if (!minMax.has3Lows(v)) {
+                assert checkLow3Correct(G.findOriginalHead(v, T.getParent(v)), T);
+                G.resetTakenNames();
                 //As we contract we must find the names of the found edges in the original graph
                 String cut = G.findName(v,T.getParent(v))+ ";" +
                 G.findName(minMax.low1(v).get(0),minMax.low1(v).get(1)) + ";" +

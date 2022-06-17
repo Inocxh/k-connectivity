@@ -34,8 +34,6 @@ public class MinMaxOracle {
     ArrayList<ArrayList<Integer>> ddcPaths;
 
     public MinMaxOracle(DFSTree T, DepthOracle depths) {
-        lca = new LCA(T);
-        this.T = T;
 
         computeLows(T);
         computeMaxUps(T);
