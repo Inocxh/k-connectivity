@@ -9,7 +9,7 @@ The workload was distributed as follows, see more in the comments of the file:
 - TwoEdgeHighpoint: Niels, Gad
 - TwoEdgeChains: Magnus
 - ThreeEdge: Gad
-- FourEdge: Niels (Magnud MPF and UnionFind)
+- FourEdge: Niels (Magnus MPF and UnionFind)
 
 All "correctness"-tests were done by Anders Reher.
 
