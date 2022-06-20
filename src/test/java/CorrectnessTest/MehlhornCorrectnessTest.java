@@ -2,7 +2,7 @@ package CorrectnessTest;
 
 import graphs.ArrayGraph;
 import graphs.ConnectedResult;
-import graphs.Mehlhorn;
+import graphs.ThreeEdge.ThreeEdge;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -14,7 +14,7 @@ public class MehlhornCorrectnessTest {
         File f = new File("src/test/graphs/correctness/mehlhorn/circle.gr");
         //Create the graph and print it:
         ArrayGraph G = ArrayGraph.fromString(new Scanner(f));
-        assert(Mehlhorn.is3EdgeConnected(G) == ConnectedResult.ThreeEdgeConnected);
+        assert(ThreeEdge.is3EdgeConnected(G) == ConnectedResult.ThreeEdgeConnected);
     }
 
 }

@@ -50,7 +50,6 @@ public class CurrentGraph {
         return chainsToSegments[chain];
     }
 
-    @Test
     //Tests that invariant always holds.
     public static boolean invarientChecker(ArrayList<ArrayList<Integer>> cToSonC, int phase){
         boolean result = true;
@@ -67,7 +66,6 @@ public class CurrentGraph {
         return result;
     }
 
-    @Test
     //Checks that the chain in phase i isn't a part of the current graph
     public static boolean notPartOfGCChecker(ArrayList<ArrayList<Integer>> cToSonC, int phase, ChainDecomposition chainDecomposition){
         boolean result = true;

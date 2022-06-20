@@ -1,8 +1,15 @@
-package graphs;
+package graphs.TwoEdgeChains;
 
 import graphs.ConnectedResult;
 import graphs.Graph;
 import graphs.TwoEdgeHighpoint.DFSTree;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+/*
+    This file contains the outwards facing implementation  of the 2-edge-connectivity with chains algoritm
+    This implementation was mainly implemented by Magnus and tests were written by Anders Reher
+ */
 
 public class TwoEdgeChains {
 
@@ -30,7 +37,6 @@ public class TwoEdgeChains {
 
     }
 
-    @Test
     //Checks that the preorder is correct
     static void checkCorrectPreOrder (DFSTree T){
         assertEquals(T.getParent(0), -1);
@@ -39,7 +45,6 @@ public class TwoEdgeChains {
         }
     }
 
-    @Test
     //Makes sure that the amount of chains found is correct.
     static void checkAmountOfChains(Graph G, ChainDecomposition CD){
         int n = G.getN();
@@ -47,7 +52,6 @@ public class TwoEdgeChains {
         assertEquals((m - n + 1), CD.getTestChains().size());
     }
 
-    @Test
     //Makes sure that when more that exists more then two cycles.
     static void correctAmountCycle(ChainDecomposition CD){
         int amountCycle = 0;

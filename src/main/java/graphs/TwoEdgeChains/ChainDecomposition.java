@@ -2,16 +2,12 @@ package graphs.TwoEdgeChains;
 
 import graphs.TwoEdgeHighpoint.DFSTree;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-    public class ChainDecomposition {
+public class ChainDecomposition {
     //TEST VARIABLES
     public static ArrayList<Chain> testChains;
 
@@ -22,6 +18,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
     public int[] verticesSBelong;
 
     public ChainDecomposition(DFSTree T, boolean mehlhorn){
+
+        assert initiateVars();
 
         if(mehlhorn) {
             verticesSBelong = new int[T.size()];
@@ -86,7 +84,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
     @Test
     //Makes sure that every vertex is visited
     public static boolean checkVisitedVertices (DFSTree T, HashSet<Integer> visited) {
-        int n  = T.getVertices().length;
+        int n  = T.size();
         return visited.size() == n;
     }
 

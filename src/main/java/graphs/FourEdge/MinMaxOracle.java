@@ -130,9 +130,11 @@ public class MinMaxOracle {
         for (int i = T.dfsPreOrder().length-1; i > 0; i--) {
             int v = T.dfsPreOrder()[i];
             int order = T.getPre(v);
-            for (int child : T.getChildren(v)) {
-                F.union(order,T.getPre(child));
-            }
+            //Not required
+            //
+            //for (int child : T.getChildren(v)) {
+            //    F.union(order,T.getPre(child));
+            //}
             colors[v] = true;
             for (Query q : queries.get(v)) {
                 int other = q.max != v ? q.max : q.min;

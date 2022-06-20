@@ -3,6 +3,12 @@ package graphs.TwoEdgeHighpoint;
 import graphs.ConnectedResult;
 import graphs.Graph;
 
+/*
+    This file contains the outwards facing 2-edge-connected highpoint algorithm
+    All files in this folder were written by Anders Gad and Niels
+    Correctness tests were written by Anders Reher
+ */
+
 public class TwoEdgeHighpoint {
 
     public static ConnectedResult is1EdgeConnected(Graph G) {
@@ -40,7 +46,7 @@ public class TwoEdgeHighpoint {
             // Check theorem for all vertices which is not root.
             if (max == T.orderOf(vertex) && T.getParent(vertex) != -1) {
                 //Found a bridge!
-               // System.out.println("Found bridge! at " + vertex);
+                System.out.println("Found bridge: (" + vertex + ","+T.getParent(vertex)+")");
                 return ConnectedResult.HasBridge;
             }
         }
@@ -48,7 +54,6 @@ public class TwoEdgeHighpoint {
     }
 
     //Returns whether the numbering invariant holds for all vertices
-    @Test
     static boolean upholdsOrderingInvariant(DFSTree T) {
         boolean result;
         //Check that the parent of the root is undefined
@@ -70,7 +75,6 @@ public class TwoEdgeHighpoint {
         return result;
     }
     // Verifies Lemma 2.1.2, that is all back-edges are between ancestors and descendants
-    @Test
     static boolean isDFSTree(DFSTree T, Graph G) {
         //For all vertices
         boolean result = true;

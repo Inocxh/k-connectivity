@@ -1,14 +1,28 @@
-package graphs;
+package graphs.ThreeEdge;
 
+import graphs.ConnectedResult;
+import graphs.Graph;
+import graphs.TwoEdgeChains.Chain;
+import graphs.TwoEdgeChains.ChainDecomposition;
+
+import graphs.TwoEdgeHighpoint.DFSTree;
 import org.junit.jupiter.api.Test;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.Stack;
 
-public class ThreeEdge {
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class Mehlhorn {
+/*
+    This file contains the outwards facing 3-edge-connectivity procedure
+    The primary author of this code is Anders Gad, with Niels writing the now dead and wrongly implemented RadixSort classes
+    correctness tests were written by Anders Reher
+ */
+
+public class ThreeEdge {
 
     static private ArrayList<ArrayList<Integer>> cToSonC;
 
@@ -53,7 +67,7 @@ public class Mehlhorn {
             Optional<Cut> cutFound = tryAddingNested(currentGraph, nested, chainDecomposition.chains.get(i), dfsTree, chainDecomposition);
 
             if (cutFound.isPresent()) {
-                // System.out.println(cutFound.get().toString());  // this line can be uncommented to print existing cuts, this is commented out to avoid too much print with Benchmark tests.
+                System.out.println(cutFound.get().toString());  // this line can be uncommented to print existing cuts, this is commented out to avoid too much print with Benchmark tests.
                 return ConnectedResult.NotThreeEdgeConnected;
             }
             //CORRECTNESS TEST
@@ -366,6 +380,6 @@ class Cut {
        this.z = z;
    }
    public String toString() {
-       return "There is a 2-edge cut in the graph, the edges in the cut are: \n1. between the vertices: " + x + " and " + pX + "\n2. between the vertices: " + y + " and " + z;
+       return "Two edge cut found: (" + x + "," + pX + "),(" + y + "," + z+")";
    }
 }

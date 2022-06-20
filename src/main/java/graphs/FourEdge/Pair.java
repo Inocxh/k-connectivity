@@ -15,7 +15,7 @@ public class Pair{
         this.sec = y;
     }
     public String toString() {
-        return "["+fst+";"+sec+"]";
+        return "("+fst+";"+sec+")";
     }
 
     @Override

@@ -1,7 +1,8 @@
 package graphs.FourEdge;
 
 import graphs.*;
-import org.junit.jupiter.api.Test;
+import graphs.ThreeEdge.ThreeEdge;
+import graphs.TwoEdgeHighpoint.DFSTree;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,6 +16,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
     The algorithm was modified to test for four-edge-connectivity instead of reporting all three-edge-cuts.
     Although all three edge cuts can easily be found by removing return statements, this implementation is unable to report the original edges in the graph in linear time.
 
+    The MPF and UnionFind implementation was done by Magnus. The rest was done by Niels.
+    Tests were done by Anders Reher.
  */
 public class FourEdge {
     // Outwards facing function that takes any graph and returns whether it is four-edge-connected or not
@@ -155,13 +158,11 @@ public class FourEdge {
         }
     }
 
-    @Test
     //Makes sure that edge f is in between the edge e and the edge g.
     public static boolean checkCorrectCutLowerCase(Pair e, Pair f, Pair g){
         return (e.sec < f.sec && f.sec <= g.sec);
     }
 
-    @Test
     //Makes sure that g is in between the edge e and f.
     public static boolean checkCorrectCutUpperCase(Pair e, Pair f, MinMaxOracle minMax){
         ArrayList<Integer> h0 = minMax.maxUp1(f.sec);
@@ -180,7 +181,6 @@ public class FourEdge {
         return h0.get(1) <= eHead && h0.get(0) >= eTail;
     }
 
-    @Test
     //Checks that g is the only backedge going betwen the two subtrees Te/Tf and Te
     public static boolean checkGLowerCase(Pair e, Pair f, Pair g, DFSTree dfsTree){
         ArrayList<Integer> Tf = dfsTree.subtree(Math.max(f.fst, f.sec));
@@ -205,7 +205,6 @@ public class FourEdge {
         return Tf.contains(g.sec) && !Tf.contains(g.fst) && TeWithoutTf.contains(g.fst) && !TeWithoutTf.contains(g.sec) && counter == 1;
     }
 
-    @Test
     //Makes sure that g is the only backedge going between the two subtrees T/Te and Te/Tf
     public static boolean checkGUpperCase(Pair e, Pair f, Pair g, DFSTree dfsTree){
         ArrayList<Integer> T = (ArrayList<Integer>) Arrays.stream(dfsTree.dfsPreOrder()).boxed().collect(Collectors.toList());
@@ -240,7 +239,6 @@ public class FourEdge {
 
     }
 
-    @Test
     //Makes sure there is only 2 backedges between T/Te and Te
     public static boolean checkLow3Correct (Pair e, DFSTree dfsTree){
         ArrayList<Integer> T = (ArrayList<Integer>) Arrays.stream(dfsTree.dfsPreOrder()).boxed().collect(Collectors.toList());

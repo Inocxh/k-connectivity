@@ -1,7 +1,6 @@
 package graphs.FourEdge;
 
 import graphs.Graph;
-import graphs.Intervals;
 import org.junit.jupiter.api.Test;
 import util.StackElement;
 import util.Stack;
